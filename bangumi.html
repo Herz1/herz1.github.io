@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>追番 · 兔山手帖</title>
+  <meta name="description" content="麻薯的追番记录，以京都动画作品为主。">
+  <meta name="theme-color" content="#FFF7EE">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-head solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="回到首页">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="54" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+          <ellipse cx="50" cy="64" rx="19" ry="13" fill="#FFEFD6"/>
+          <path d="M50 24 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="47" r="3.4" fill="#4A3A30"/><circle cx="60" cy="47" r="3.4" fill="#4A3A30"/>
+          <circle cx="33" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/>
+          <path d="M44 52 Q50 45 56 52 Q50 59 44 52" fill="#F2A65A"/>
+          <path d="M50 75 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+        </svg>
+        <span class="brand-txt"><b>兔山手帖</b><i>USAGIYAMA NOTES</i></span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="archive.html">归档</a>
+        <a href="bangumi.html" class="on">追番</a>
+        <a href="friends.html">友链</a>
+        <a href="about.html">关于</a>
+      </nav>
+      <div class="head-btns">
+        <button class="hbtn" id="search-btn" aria-label="搜索（Ctrl+K）" title="搜索 Ctrl+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        </button>
+        <button class="hbtn" id="theme-btn" aria-label="切换昼夜">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.3 4.3l1.7 1.7M18 18l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"/></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.4 14.2A8.5 8.5 0 1 1 9.8 3.6a7 7 0 1 0 10.6 10.6Z"/></svg>
+        </button>
+        <button class="hbtn" id="burger" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="m-nav" aria-label="移动端导航">
+    <a href="index.html">🏠 首页</a>
+    <a href="archive.html">📦 归档</a>
+    <a href="bangumi.html" class="on">📺 追番</a>
+    <a href="friends.html">🔗 友链</a>
+    <a href="about.html">🍵 关于</a>
+  </nav>
+
+  <div class="page-hero">
+    <span class="deco" style="left:13%;top:30%">📺</span>
+    <span class="deco" style="right:12%;top:55%;animation-delay:1.4s">🌸</span>
+    <h1>我的追番</h1>
+    <p>以京阿尼为主的追番记录 —— 评分是私心，吐槽是真心。</p>
+  </div>
+
+  <div class="page-body">
+    <div class="wrap">
+      <div class="bgm-grid">
+
+        <div class="bgm-card rise" style="--g1:#F8AFC5;--g2:#FFE3B3">
+          <div class="bgm-cover"><span class="em">🍡</span><span class="jp">たまこまーけっと</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>玉子市场</b><span class="yr">京都动画 · 2013 · TV 12 话</span>
+            <div class="stars">★★★★★<em>9.5 / 10</em></div>
+            <p>本站的精神原乡。商店街的日常本身就是剧情，每一话都像刚出锅的年糕一样冒着热气。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">12 / 12 话 · 二周目完成</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#F591AC;--g2:#B7A6E8">
+          <div class="bgm-cover"><span class="em">💞</span><span class="jp">たまこラブストーリー</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>玉子爱情故事</b><span class="yr">京都动画 · 2014 · 剧场版</span>
+            <div class="stars">★★★★★<em>9.8 / 10</em></div>
+            <p>从日常里长出来的告白。跳进鸭川的那一刻，青春有了具体的形状。京阿尼演出教科书。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">剧场版 · 三刷</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#FFD9A0;--g2:#F8AFC5">
+          <div class="bgm-cover"><span class="em">🎸</span><span class="jp">けいおん！</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>轻音少女 K-ON!</b><span class="yr">京都动画 · 2009 · TV 两季 + 剧场版</span>
+            <div class="stars">★★★★★<em>9.6 / 10</em></div>
+            <p>放学后的红茶、蛋糕与吉他。看完只想认真地浪费时间，和喜欢的人组一辈子乐队。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">全篇 · 含剧场版</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#C8E6C0;--g2:#A8D8E8">
+          <div class="bgm-cover"><span class="em">🔍</span><span class="jp">氷菓</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>冰菓</b><span class="yr">京都动画 · 2012 · TV 22 话</span>
+            <div class="stars">★★★★★<em>9.4 / 10</em></div>
+            <p>「我很好奇！」节能主义少年与好奇心少女的青春推理。光影华丽得不讲道理。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">22 / 22 话</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#A8D8E8;--g2:#FBD3DE">
+          <div class="bgm-cover"><span class="em">🐈</span><span class="jp">日常</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>日常</b><span class="yr">京都动画 · 2011 · TV 26 话</span>
+            <div class="stars">★★★★☆<em>9.2 / 10</em></div>
+            <p>把「日常」拍成超展开动作大片。笑到打鸣之后，又会被某个瞬间温柔到。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">26 / 26 话</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#B7A6E8;--g2:#FFE3B3">
+          <div class="bgm-cover"><span class="em">✉️</span><span class="jp">ヴァイオレット・エヴァーガーデン</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>紫罗兰永恒花园</b><span class="yr">京都动画 · 2018 · TV + 剧场版</span>
+            <div class="stars">★★★★★<em>9.7 / 10</em></div>
+            <p>代笔人写下的每一封信，都是一堂「爱是什么」的课。纸巾消耗量全番第一。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">全篇 · 含外传与剧场版</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#FFC96B;--g2:#F69BB8">
+          <div class="bgm-cover"><span class="em">🎺</span><span class="jp">響け！ユーフォニアム</span><span class="bgm-state doing">在看</span></div>
+          <div class="bgm-body">
+            <b>吹响！上低音号</b><span class="yr">京都动画 · 2015–2024 · TV 三季</span>
+            <div class="stars">★★★★★<em>9.6 / 10</em></div>
+            <p>北宇治吹奏部的青春长跑。关于「想变得特别」这件事，它讲得比谁都诚实。</p>
+            <div class="bgm-prog"><i style="width:78%"></i></div>
+            <div class="bgm-ep">第三季 10 / 13 话</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#9CD3E8;--g2:#C8E6C0">
+          <div class="bgm-cover"><span class="em">🤝</span><span class="jp">聲の形</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>声之形</b><span class="yr">京都动画 · 2016 · 剧场版</span>
+            <div class="stars">★★★★☆<em>9.3 / 10</em></div>
+            <p>关于伤害、原谅与自我救赎。烟花那一段的声音设计，值得戴上最好的耳机。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">剧场版</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#8FBE8A;--g2:#FFD9A0">
+          <div class="bgm-cover"><span class="em">🐉</span><span class="jp">小林さんちのメイドラゴン</span><span class="bgm-state done">看完</span></div>
+          <div class="bgm-body">
+            <b>小林家的龙女仆</b><span class="yr">京都动画 · 2017 · TV 两季</span>
+            <div class="stars">★★★★☆<em>8.9 / 10</em></div>
+            <p>异种族家庭喜剧的天花板。托尔做的饭，看起来真的很好吃。</p>
+            <div class="bgm-prog"><i style="width:100%"></i></div>
+            <div class="bgm-ep">两季完结</div>
+          </div>
+        </div>
+
+        <div class="bgm-card rise" style="--g1:#7FC8E8;--g2:#B7E8D8">
+          <div class="bgm-cover"><span class="em">🌊</span><span class="jp">Free!</span><span class="bgm-state doing">在看</span></div>
+          <div class="bgm-body">
+            <b>Free!</b><span class="yr">京都动画 · 2013 · TV</span>
+            <div class="stars">★★★★☆<em>8.5 / 10</em></div>
+            <p>水的作画好到令人发指，夏天就该配着这个游泳（在沙发上）。</p>
+            <div class="bgm-prog"><i style="width:50%"></i></div>
+            <div class="bgm-ep">6 / 12 话</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="apply-card rise" style="margin-top:34px">
+        <h3>评分说明</h3>
+        <p>评分满分 10 分，纯私人口味，不构成任何观看建议（虽然全都建议看）。数据手动维护在 <code>bangumi.html</code> 里，想接入实时数据可以参考 <a href="https://bangumi.github.io/api/" target="_blank" rel="noopener" style="color:var(--pink-deep)">Bangumi API</a>。</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <svg class="footer-sky" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L0 34 Q 180 0 360 30 T 720 28 T 1080 32 T 1440 26 L1440 70 Z"/></svg>
+    <div class="wrap footer-inner">
+      <div class="f-bar">
+        <span>© <span class="js-year">2026</span> 麻薯 · 兔山手帖</span>
+        <span>本站已营业 <b class="js-days">-</b> 天</span>
+        <span>由 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 强力驱动</span>
+        <span><a href="https://icp.gov.moe" target="_blank" rel="noopener">萌ICP备20260701号</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

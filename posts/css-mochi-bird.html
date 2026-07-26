@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用纯 SVG 画一只圆滚滚的年糕鸟 · 兔山手帖</title>
+  <meta name="description" content="本站看板娘「大福」的诞生记：几个圆、两条弧线和一点点缓动函数，就能捏出一只会眨眼的胖鸟。附完整源码。">
+  <meta name="theme-color" content="#FFF7EE">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="post-page" data-root="../" data-post="css-mochi-bird">
+  <header class="site-head solid">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="回到首页">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="54" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+          <ellipse cx="50" cy="64" rx="19" ry="13" fill="#FFEFD6"/>
+          <path d="M50 24 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="47" r="3.4" fill="#4A3A30"/><circle cx="60" cy="47" r="3.4" fill="#4A3A30"/>
+          <circle cx="33" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/>
+          <path d="M44 52 Q50 45 56 52 Q50 59 44 52" fill="#F2A65A"/>
+          <path d="M50 75 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+        </svg>
+        <span class="brand-txt"><b>兔山手帖</b><i>USAGIYAMA NOTES</i></span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="../index.html">首页</a>
+        <a href="../archive.html">归档</a>
+        <a href="../bangumi.html">追番</a>
+        <a href="../friends.html">友链</a>
+        <a href="../about.html">关于</a>
+      </nav>
+      <div class="head-btns">
+        <button class="hbtn" id="search-btn" aria-label="搜索（Ctrl+K）" title="搜索 Ctrl+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        </button>
+        <button class="hbtn" id="theme-btn" aria-label="切换昼夜">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.3 4.3l1.7 1.7M18 18l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"/></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.4 14.2A8.5 8.5 0 1 1 9.8 3.6a7 7 0 1 0 10.6 10.6Z"/></svg>
+        </button>
+        <button class="hbtn" id="burger" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="m-nav" aria-label="移动端导航">
+    <a href="../index.html">🏠 首页</a>
+    <a href="../archive.html">📦 归档</a>
+    <a href="../bangumi.html">📺 追番</a>
+    <a href="../friends.html">🔗 友链</a>
+    <a href="../about.html">🍵 关于</a>
+  </nav>
+
+  <div class="post-hero">
+    <div class="ph-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="ph-cat" style="--cat-c:#7FA0D8">技术手记</span>
+      <h1>用纯 SVG 画一只圆滚滚的年糕鸟</h1>
+      <div class="post-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>2026-07-24</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>约 8 分钟</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2Zm0 0A2.5 2.5 0 0 0 6.5 22H20"/></svg>约 2100 字</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap post-layout">
+    <article class="post-body">
+      <p>本站右下角住着一只会眨眼的胖鸟，名叫<strong>大福</strong>。经常有朋友问：这是找画师约的稿吗？不是——它是十几个 SVG 基本图形叠出来的，全部代码不到 30 行，没有用任何图片。这篇把它拆开给你看。</p>
+      <p>先看成品（这只是活的，会眨眼）：</p>
+
+      <svg class="ill" viewBox="0 0 300 150" style="background:linear-gradient(135deg,#FFE3B3,#FFD0DC)" aria-label="年糕鸟大福演示">
+        <g style="animation:bob 3.4s ease-in-out infinite;transform-origin:150px 120px">
+          <ellipse cx="150" cy="138" rx="36" ry="6" fill="rgba(120,80,50,.14)"/>
+          <ellipse cx="112" cy="82" rx="15" ry="10" fill="#F3E3CE" transform="rotate(26 112 82)"/>
+          <ellipse cx="188" cy="82" rx="15" ry="10" fill="#F3E3CE" transform="rotate(-26 188 82)"/>
+          <circle cx="150" cy="80" r="40" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3.5"/>
+          <ellipse cx="150" cy="95" rx="25" ry="16" fill="#FFEFD6"/>
+          <path d="M150 40 q4 -11 13 -9" fill="none" stroke="#E0C6AC" stroke-width="3.5" stroke-linecap="round"/>
+          <ellipse cx="136" cy="72" rx="4.2" ry="4.6" fill="#4A3A30" style="animation:blink 4.8s infinite;transform-origin:center;transform-box:fill-box"/>
+          <ellipse cx="164" cy="72" rx="4.2" ry="4.6" fill="#4A3A30" style="animation:blink 4.8s infinite;transform-origin:center;transform-box:fill-box"/>
+          <circle cx="126" cy="82" r="6" fill="#F8AFC5" opacity=".9"/><circle cx="174" cy="82" r="6" fill="#F8AFC5" opacity=".9"/>
+          <path d="M142 78 Q150 69 158 78 Q150 87 142 78" fill="#F2A65A"/>
+          <path d="M150 108 c-4.4 -5 -11.3 -1.2 -7.5 4.3 l7.5 5.7 7.5 -5.7 c3.8 -5.5 -3.1 -9.3 -7.5 -4.3" fill="#E4573D"/>
+          <ellipse cx="139" cy="126" rx="6.4" ry="3.2" fill="#E8A25A"/><ellipse cx="161" cy="126" rx="6.4" ry="3.2" fill="#E8A25A"/>
+        </g>
+      </svg>
+      <p class="fig-cap">▲ 大福 · 本体（inline SVG + 两个 CSS 动画）</p>
+
+      <h2>设计原则：一切从圆开始</h2>
+      <p>治愈系角色设计有一条铁律：<strong>圆度即亲和度</strong>。观察《玉子市场》的德拉、各种吉祥物，共同点是找不到一个锐角。所以我们的素材清单只有三种东西：</p>
+      <ul>
+        <li><code>&lt;circle&gt;</code> / <code>&lt;ellipse&gt;</code> —— 身体、眼睛、腮红、脚</li>
+        <li>二次贝塞尔曲线 <code>Q</code> —— 嘴巴、呆毛</li>
+        <li>三次贝塞尔曲线 <code>c</code> —— 胸口的小爱心</li>
+      </ul>
+      <p>配色也只有五个：奶油白 <code>#FFF9F0</code>、暖棕描边 <code>#E0C6AC</code>、腮红粉 <code>#F8AFC5</code>、橘子嘴 <code>#F2A65A</code>、爱心红 <code>#E4573D</code>。全部取自低饱和暖色区，这是「年糕感」的来源。</p>
+
+      <h2>逐层拆解</h2>
+      <h3>第一层：身体与肚皮</h3>
+      <div class="codebox">
+        <div class="codebox-head"><i></i><i></i><i></i><span class="lang">svg</span></div>
+        <pre><code><span class="cm">&lt;!-- 影子先画，垫在最底下 --&gt;</span>
+&lt;<span class="kw">ellipse</span> <span class="fn">cx</span>=<span class="st">"150"</span> <span class="fn">cy</span>=<span class="st">"138"</span> <span class="fn">rx</span>=<span class="st">"36"</span> <span class="fn">ry</span>=<span class="st">"6"</span> <span class="fn">fill</span>=<span class="st">"rgba(120,80,50,.14)"</span>/&gt;
+<span class="cm">&lt;!-- 身体：一个大圆 + 描边就有了软乎乎的轮廓 --&gt;</span>
+&lt;<span class="kw">circle</span> <span class="fn">cx</span>=<span class="st">"150"</span> <span class="fn">cy</span>=<span class="st">"80"</span> <span class="fn">r</span>=<span class="st">"40"</span> <span class="fn">fill</span>=<span class="st">"#FFF9F0"</span> <span class="fn">stroke</span>=<span class="st">"#E0C6AC"</span> <span class="fn">stroke-width</span>=<span class="st">"3.5"</span>/&gt;
+<span class="cm">&lt;!-- 肚皮：颜色更深一档的椭圆，制造体积感 --&gt;</span>
+&lt;<span class="kw">ellipse</span> <span class="fn">cx</span>=<span class="st">"150"</span> <span class="fn">cy</span>=<span class="st">"95"</span> <span class="fn">rx</span>=<span class="st">"25"</span> <span class="fn">ry</span>=<span class="st">"16"</span> <span class="fn">fill</span>=<span class="st">"#FFEFD6"</span>/&gt;</code></pre>
+      </div>
+      <p>要点只有一个：<strong>肚皮不要描边</strong>。同一只鸟身上，描边只出现在最外轮廓，内部全用色块区分，画面立刻干净。</p>
+
+      <h3>第二层：五官</h3>
+      <div class="codebox">
+        <div class="codebox-head"><i></i><i></i><i></i><span class="lang">svg</span></div>
+        <pre><code><span class="cm">&lt;!-- 眼睛：竖椭圆比正圆多一分呆萌 --&gt;</span>
+&lt;<span class="kw">ellipse</span> <span class="fn">class</span>=<span class="st">"eye"</span> <span class="fn">cx</span>=<span class="st">"136"</span> <span class="fn">cy</span>=<span class="st">"72"</span> <span class="fn">rx</span>=<span class="st">"4.2"</span> <span class="fn">ry</span>=<span class="st">"4.6"</span> <span class="fn">fill</span>=<span class="st">"#4A3A30"</span>/&gt;
+<span class="cm">&lt;!-- 嘴：两条 Q 曲线拼成的菱形软糖 --&gt;</span>
+&lt;<span class="kw">path</span> <span class="fn">d</span>=<span class="st">"M142 78 Q150 69 158 78 Q150 87 142 78"</span> <span class="fn">fill</span>=<span class="st">"#F2A65A"</span>/&gt;
+<span class="cm">&lt;!-- 胸口爱心：向《玉子市场》的「恋の花」致意 --&gt;</span>
+&lt;<span class="kw">path</span> <span class="fn">d</span>=<span class="st">"M150 108 c-4.4 -5 -11.3 -1.2 -7.5 4.3
+         l7.5 5.7 7.5 -5.7 c3.8 -5.5 -3.1 -9.3 -7.5 -4.3"</span> <span class="fn">fill</span>=<span class="st">"#E4573D"</span>/&gt;</code></pre>
+      </div>
+      <p>腮红是全场性价比之王：两个半透明粉圆，直接把亲和度拉满。位置放在<strong>眼睛外下方</strong>，宁低勿高。</p>
+
+      <h3>第三层：让它活过来</h3>
+      <p>两个动画就够了，多了反而闹：</p>
+      <div class="codebox">
+        <div class="codebox-head"><i></i><i></i><i></i><span class="lang">css</span></div>
+        <pre><code><span class="cm">/* 呼吸般的上下浮动 */</span>
+<span class="kw">@keyframes</span> <span class="fn">bob</span> {
+  <span class="nb">0%</span>, <span class="nb">100%</span> { <span class="fn">transform</span>: translateY(<span class="nb">0</span>) }
+  <span class="nb">50%</span>     { <span class="fn">transform</span>: translateY(<span class="nb">-12px</span>) }
+}
+<span class="cm">/* 眨眼：97% 的时间睁着，一瞬间压扁 */</span>
+<span class="kw">@keyframes</span> <span class="fn">blink</span> {
+  <span class="nb">0%</span>, <span class="nb">93%</span>, <span class="nb">100%</span> { <span class="fn">transform</span>: scaleY(<span class="nb">1</span>) }
+  <span class="nb">96%</span>          { <span class="fn">transform</span>: scaleY(<span class="nb">.08</span>) }
+}
+.eye {
+  <span class="fn">animation</span>: blink <span class="nb">4.8s</span> infinite;
+  <span class="cm">/* 关键：让缩放以眼睛自身为中心 */</span>
+  <span class="fn">transform-origin</span>: center;
+  <span class="fn">transform-box</span>: fill-box;
+}</code></pre>
+      </div>
+      <p>最容易踩的坑是 <code>transform-box: fill-box</code>——不写它，SVG 元素默认绕整个画布原点缩放，眨眼会变成「瞬移」。写了它，变换中心才落在眼睛自己身上。</p>
+
+      <h2>进阶：从立绘到看板娘</h2>
+      <p>把静态立绘升级成本站右下角的看板娘，只加了三样东西（源码见 <code>js/main.js</code>）：</p>
+      <ul>
+        <li><strong>台词气泡</strong>：点击时从台词数组随机抽一句，CSS 弹簧曲线 <code>cubic-bezier(.34,1.56,.64,1)</code> 负责「弹出来」的手感</li>
+        <li><strong>连击彩蛋</strong>：500ms 内连点三下触发年糕雨（36 个随机大小的 SVG 年糕从天而降）</li>
+        <li><strong>请假按钮</strong>：右上角的 ✕ 可以让它下班，用 <code>sessionStorage</code> 记住，刷新不复活，重开浏览器又回来上班</li>
+      </ul>
+      <blockquote><p>比起 Live2D 看板娘（要加载几 MB 的模型和运行时），这只 SVG 鸟的成本是 <strong>0 请求、0 依赖、约 1.5KB</strong>——治愈感不输，性能白拿。</p></blockquote>
+
+      <hr>
+      <p>画圆并不难，难的是接受「就这么简单」。祝你也捏出自己的年糕鸟——欢迎把成品发给我，好的作品会挂进<a href="../friends.html">友链页</a>。</p>
+
+      <div class="copyright-card">
+        <b>本文信息</b><br>
+        作者：麻薯 · 首发于 <a href="../index.html">兔山手帖</a><br>
+        许可：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>，文中代码可自由取用（MIT）。
+      </div>
+      <div class="post-nav" id="post-nav"></div>
+      <div class="cmt-card">💬 评论区施工中 —— 计划接入 <b>Giscus</b>（基于 GitHub Discussions，纯静态友好）。</div>
+    </article>
+
+    <aside class="toc-side">
+      <div class="toc-wrap">
+        <h4>本文目录</h4>
+        <nav class="toc" id="toc"></nav>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <svg class="footer-sky" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L0 34 Q 180 0 360 30 T 720 28 T 1080 32 T 1440 26 L1440 70 Z"/></svg>
+    <div class="wrap footer-inner">
+      <div class="f-bar">
+        <span>© <span class="js-year">2026</span> 麻薯 · 兔山手帖</span>
+        <span>本站已营业 <b class="js-days">-</b> 天</span>
+        <span>由 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 强力驱动</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

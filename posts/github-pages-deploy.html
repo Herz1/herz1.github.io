@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>把这个博客部署到 GitHub Pages 的完整笔记 · 兔山手帖</title>
+  <meta name="description" content="从本地文件夹到能用域名访问的网站，只需要一个仓库和三条命令。记录全部步骤、踩坑与自定义域名。">
+  <meta name="theme-color" content="#FFF7EE">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="post-page" data-root="../" data-post="github-pages-deploy">
+  <header class="site-head solid">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="回到首页">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="54" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+          <ellipse cx="50" cy="64" rx="19" ry="13" fill="#FFEFD6"/>
+          <path d="M50 24 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="47" r="3.4" fill="#4A3A30"/><circle cx="60" cy="47" r="3.4" fill="#4A3A30"/>
+          <circle cx="33" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/>
+          <path d="M44 52 Q50 45 56 52 Q50 59 44 52" fill="#F2A65A"/>
+          <path d="M50 75 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+        </svg>
+        <span class="brand-txt"><b>兔山手帖</b><i>USAGIYAMA NOTES</i></span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="../index.html">首页</a>
+        <a href="../archive.html">归档</a>
+        <a href="../bangumi.html">追番</a>
+        <a href="../friends.html">友链</a>
+        <a href="../about.html">关于</a>
+      </nav>
+      <div class="head-btns">
+        <button class="hbtn" id="search-btn" aria-label="搜索（Ctrl+K）" title="搜索 Ctrl+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        </button>
+        <button class="hbtn" id="theme-btn" aria-label="切换昼夜">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.3 4.3l1.7 1.7M18 18l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"/></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.4 14.2A8.5 8.5 0 1 1 9.8 3.6a7 7 0 1 0 10.6 10.6Z"/></svg>
+        </button>
+        <button class="hbtn" id="burger" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="m-nav" aria-label="移动端导航">
+    <a href="../index.html">🏠 首页</a>
+    <a href="../archive.html">📦 归档</a>
+    <a href="../bangumi.html">📺 追番</a>
+    <a href="../friends.html">🔗 友链</a>
+    <a href="../about.html">🍵 关于</a>
+  </nav>
+
+  <div class="post-hero">
+    <div class="ph-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="ph-cat" style="--cat-c:#7FA0D8">技术手记</span>
+      <h1>把这个博客部署到 GitHub Pages 的完整笔记</h1>
+      <div class="post-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>2026-07-26</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>约 6 分钟</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2Zm0 0A2.5 2.5 0 0 0 6.5 22H20"/></svg>约 1600 字</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap post-layout">
+    <article class="post-body">
+      <p>本站的所有文件就是一个普通文件夹：双击 <code>index.html</code> 能看，扔到任何静态托管上也能看。这篇笔记记录把它变成「有域名的正经网站」的全过程——照着做一遍，十分钟内你的博客就能上线。</p>
+      <blockquote><p>前置条件只有两个：装好 <a href="https://git-scm.com" target="_blank" rel="noopener">Git</a>，注册一个 <a href="https://github.com" target="_blank" rel="noopener">GitHub</a> 账号。</p></blockquote>
+
+      <h2>第零步：本地先跑起来</h2>
+      <p>纯静态站点的美德是<strong>本地即所得</strong>。两种方式任选：</p>
+      <ul>
+        <li><strong>直接双击</strong> <code>index.html</code> —— 全部功能可用（本站没有任何需要服务器的请求）。</li>
+        <li><strong>起个本地服务器</strong>（更接近线上环境，地址栏更好看）：</li>
+      </ul>
+      <div class="codebox">
+        <div class="codebox-head"><i></i><i></i><i></i><span class="lang">bash</span></div>
+        <pre><code><span class="cm"># 方式 A：Python（Windows/macOS 一般自带或易装）</span>
+<span class="fn">python</span> -m http.server <span class="nb">4173</span>
+
+<span class="cm"># 方式 B：Node</span>
+<span class="fn">npx</span> serve .
+
+<span class="cm"># 然后浏览器打开 http://localhost:4173</span></code></pre>
+      </div>
+
+      <h2>第一步：建仓库</h2>
+      <p>去 GitHub 点右上角 <strong>New repository</strong>，只需要决定一个名字，两种方案：</p>
+      <table>
+        <thead><tr><th>仓库名</th><th>上线后的地址</th><th>适合</th></tr></thead>
+        <tbody>
+          <tr><td><code>usagiyama-blog</code>（任意名）</td><td><code>你的用户名.github.io/usagiyama-blog/</code></td><td>大多数人，一个账号可以开很多站</td></tr>
+          <tr><td><code>你的用户名.github.io</code></td><td><code>你的用户名.github.io</code>（根域名）</td><td>把它当唯一主站</td></tr>
+        </tbody>
+      </table>
+      <p>其他选项保持默认（Public、不勾 README），点创建。<strong>本站所有链接都用相对路径</strong>，所以两种方案都不用改任何代码。</p>
+
+      <h2>第二步：推上去（三条命令）</h2>
+      <p>在博客文件夹里打开终端：</p>
+      <div class="codebox">
+        <div class="codebox-head"><i></i><i></i><i></i><span class="lang">bash</span></div>
+        <pre><code><span class="cm"># 如果还没初始化过 git（本站仓库已内置首次提交，可跳过前两条）</span>
+<span class="fn">git</span> init -b main
+<span class="fn">git</span> add -A && <span class="fn">git</span> commit -m <span class="st">"🍡 开张"</span>
+
+<span class="cm"># 关联远端并推送（把 yourname 换成你的用户名）</span>
+<span class="fn">git</span> remote add origin https://github.com/yourname/usagiyama-blog.git
+<span class="fn">git</span> push -u origin main</code></pre>
+      </div>
+
+      <h2>第三步：打开 Pages 开关</h2>
+      <ul>
+        <li>进入仓库页面 → <strong>Settings</strong> → 左栏 <strong>Pages</strong></li>
+        <li>Source 选 <strong>Deploy from a branch</strong></li>
+        <li>Branch 选 <strong>main</strong>，目录选 <strong>/(root)</strong>，点 Save</li>
+      </ul>
+      <p>等一两分钟，页面顶部会出现绿色的 <strong>Your site is live at …</strong>。恭喜开张 🎉</p>
+      <p>两个锦上添花的小文件（本仓库已带）：</p>
+      <ul>
+        <li><code>.nojekyll</code> —— 告诉 GitHub 别用 Jekyll 处理，部署更快更省心</li>
+        <li><code>404.html</code> —— 访客走错路时，会看到迷路的大福而不是冷冰冰的默认页</li>
+      </ul>
+
+      <h2>第四步（可选）：绑自己的域名</h2>
+      <ul>
+        <li>在仓库根目录新建文件 <code>CNAME</code>，内容一行：<code>blog.example.com</code></li>
+        <li>去域名服务商加一条 DNS：<code>blog</code> 的 <strong>CNAME 记录</strong> 指向 <code>你的用户名.github.io</code></li>
+        <li>回到 Settings → Pages，填入域名并勾选 <strong>Enforce HTTPS</strong></li>
+      </ul>
+
+      <h2>踩坑备忘</h2>
+      <ul>
+        <li><strong>页面 404</strong>：多半是仓库里没有根目录的 <code>index.html</code>，或者 Pages 分支选错。</li>
+        <li><strong>样式丢了</strong>：检查是不是用了以 <code>/</code> 开头的绝对路径——项目页会多一层 <code>/仓库名/</code> 前缀，<strong>全部用相对路径</strong>就永远不会踩。</li>
+        <li><strong>改了没生效</strong>：Pages 有 CDN 缓存，等一分钟或强刷（Ctrl+F5）。</li>
+        <li><strong>字体加载慢</strong>：本站的霞鹜文楷走 jsDelivr CDN，离线或被墙时会优雅回退到系统字体，不影响使用。</li>
+      </ul>
+
+      <hr>
+      <p>就这么多。从今天起，这条商店街有了自己的门牌号。下一步计划：接入 Giscus 评论、写一个 GitHub Actions 自动生成 RSS——都会继续记在这本手帖里。</p>
+
+      <div class="copyright-card">
+        <b>本文信息</b><br>
+        作者：麻薯 · 首发于 <a href="../index.html">兔山手帖</a><br>
+        许可：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>，转载请注明出处。
+      </div>
+      <div class="post-nav" id="post-nav"></div>
+      <div class="cmt-card">💬 评论区施工中 —— 计划接入 <b>Giscus</b>（基于 GitHub Discussions，纯静态友好）。</div>
+    </article>
+
+    <aside class="toc-side">
+      <div class="toc-wrap">
+        <h4>本文目录</h4>
+        <nav class="toc" id="toc"></nav>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <svg class="footer-sky" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L0 34 Q 180 0 360 30 T 720 28 T 1080 32 T 1440 26 L1440 70 Z"/></svg>
+    <div class="wrap footer-inner">
+      <div class="f-bar">
+        <span>© <span class="js-year">2026</span> 麻薯 · 兔山手帖</span>
+        <span>本站已营业 <b class="js-days">-</b> 天</span>
+        <span>由 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 强力驱动</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

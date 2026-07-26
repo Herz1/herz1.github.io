@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>兔山手帖 · 麻薯与商店街的日常</title>
+  <meta name="description" content="兔山手帖——一个玉子市场风格的治愈系个人博客：技术手记、追番观察、圣地巡礼与生活切片。">
+  <meta name="theme-color" content="#FFF7EE">
+  <meta property="og:title" content="兔山手帖 · Usagiyama Notes">
+  <meta property="og:description" content="麻薯、商店街，与恰到好处的日常。">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script>/* 防闪烁：尽早落地主题 */
+    (function () {
+      var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 开屏 · 三色团子 -->
+  <div id="loader" aria-hidden="true">
+    <div class="dango"><i></i><i></i><i></i></div>
+    <p>兔山商店街 · 开门中</p>
+  </div>
+
+  <!-- ═══ 顶栏 ═══ -->
+  <header class="site-head">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="回到首页">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="54" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+          <ellipse cx="50" cy="64" rx="19" ry="13" fill="#FFEFD6"/>
+          <path d="M50 24 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="47" r="3.4" fill="#4A3A30"/><circle cx="60" cy="47" r="3.4" fill="#4A3A30"/>
+          <circle cx="33" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/>
+          <path d="M44 52 Q50 45 56 52 Q50 59 44 52" fill="#F2A65A"/>
+          <path d="M50 75 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+        </svg>
+        <span class="brand-txt"><b>兔山手帖</b><i>USAGIYAMA NOTES</i></span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="index.html" class="on">首页</a>
+        <a href="archive.html">归档</a>
+        <a href="bangumi.html">追番</a>
+        <a href="friends.html">友链</a>
+        <a href="about.html">关于</a>
+      </nav>
+      <div class="head-btns">
+        <button class="hbtn" id="search-btn" aria-label="搜索（Ctrl+K）" title="搜索 Ctrl+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        </button>
+        <button class="hbtn" id="theme-btn" aria-label="切换昼夜">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.3 4.3l1.7 1.7M18 18l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"/></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.4 14.2A8.5 8.5 0 1 1 9.8 3.6a7 7 0 1 0 10.6 10.6Z"/></svg>
+        </button>
+        <button class="hbtn" id="burger" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="m-nav" aria-label="移动端导航">
+    <a href="index.html" class="on">🏠 首页</a>
+    <a href="archive.html">📦 归档</a>
+    <a href="bangumi.html">📺 追番</a>
+    <a href="friends.html">🔗 友链</a>
+    <a href="about.html">🍵 关于</a>
+  </nav>
+
+  <!-- ═══ 英雄区 · 兔山商店街全景（昼夜两态） ═══ -->
+  <section class="hero">
+    <div class="hero-scene" aria-hidden="true">
+      <svg viewBox="0 0 1440 620" preserveAspectRatio="xMidYMax slice">
+        <defs>
+          <linearGradient id="skyD" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#A9D9F2"/><stop offset=".62" stop-color="#DFEFEA"/><stop offset="1" stop-color="#FFEED8"/>
+          </linearGradient>
+          <linearGradient id="skyN" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="620">
+            <stop offset="0" stop-color="#1D2547"/><stop offset=".55" stop-color="#43395F"/><stop offset=".85" stop-color="#8A4E58"/><stop offset="1" stop-color="#C06A50"/>
+          </linearGradient>
+          <radialGradient id="haloG"><stop offset="0" stop-color="#FFCE7E" stop-opacity=".9"/><stop offset="1" stop-color="#FFCE7E" stop-opacity="0"/></radialGradient>
+          <radialGradient id="sunG"><stop offset="0" stop-color="#FFE9B0"/><stop offset="1" stop-color="#FFD98A"/></radialGradient>
+        </defs>
+
+        <!-- 天空 -->
+        <rect class="sky-day" width="1440" height="620" fill="url(#skyD)"/>
+        <rect class="sky-night" width="1440" height="620" fill="url(#skyN)"/>
+
+        <!-- 太阳 / 月亮与星星 -->
+        <g class="sun"><circle cx="1175" cy="150" r="78" fill="url(#sunG)" opacity=".4"/><circle cx="1175" cy="150" r="44" fill="url(#sunG)"/></g>
+        <g class="moonpack">
+          <circle cx="1175" cy="140" r="38" fill="#FFF3CF"/><circle cx="1189" cy="132" r="33" fill="url(#skyN)"/>
+          <circle class="star" cx="140" cy="90" r="2"/><circle class="star" cx="300" cy="150" r="1.5"/><circle class="star" cx="470" cy="70" r="2.2"/>
+          <circle class="star" cx="640" cy="120" r="1.4"/><circle class="star" cx="820" cy="60" r="2"/><circle class="star" cx="960" cy="140" r="1.6"/>
+          <circle class="star" cx="1080" cy="80" r="1.4"/><circle class="star" cx="1290" cy="200" r="1.8"/><circle class="star" cx="1390" cy="90" r="2.2"/>
+          <circle class="star" cx="220" cy="230" r="1.4"/><circle class="star" cx="540" cy="200" r="1.6"/><circle class="star" cx="740" cy="240" r="1.3"/>
+        </g>
+
+        <!-- 云 -->
+        <g class="cloud c1" opacity=".92"><ellipse cx="200" cy="120" rx="58" ry="20"/><ellipse cx="245" cy="108" rx="40" ry="16"/><ellipse cx="160" cy="110" rx="34" ry="14"/></g>
+        <g class="cloud c2" opacity=".8"><ellipse cx="700" cy="190" rx="50" ry="17"/><ellipse cx="740" cy="180" rx="34" ry="13"/></g>
+        <g class="cloud c3" opacity=".88"><ellipse cx="1050" cy="95" rx="64" ry="21"/><ellipse cx="1105" cy="84" rx="42" ry="16"/><ellipse cx="1005" cy="84" rx="36" ry="14"/></g>
+
+        <!-- 远山（兔耳山） -->
+        <path class="hill2" d="M820 500 Q1080 320 1440 480 L1440 620 L820 620 Z"/>
+        <path class="hill" d="M-40 510 Q120 400 240 430 Q262 356 300 352 Q310 330 330 330 Q350 330 360 352 Q398 358 420 430 Q560 410 660 510 L660 620 L-40 620 Z"/>
+
+        <!-- 灯笼串 -->
+        <path d="M60 330 Q720 272 1380 330" fill="none" stroke="#B98F72" stroke-width="2.5" opacity=".9"/>
+        <g class="lans">
+          <g transform="translate(150 316)"><circle class="lan-halo" r="20" fill="url(#haloG)"/><rect x="-3" y="-12" width="6" height="6" rx="2" fill="#8A6A50"/><circle class="lan-body" r="9.5"/></g>
+          <g transform="translate(330 304)"><circle class="lan-halo" r="20" fill="url(#haloG)"/><rect x="-3" y="-12" width="6" height="6" rx="2" fill="#8A6A50"/><circle class="lan-body" r="9.5"/></g>
+          <g transform="translate(520 295)"><circle class="lan-halo" r="20" fill="url(#haloG)"/><rect x="-3" y="-12" width="6" height="6" rx="2" fill="#8A6A50"/><circle class="lan-body" r="9.5"/></g>
+          <g transform="translate(920 295)"><circle class="lan-halo" r="20" fill="url(#haloG)"/><rect x="-3" y="-12" width="6" height="6" rx="2" fill="#8A6A50"/><circle class="lan-body" r="9.5"/></g>
+          <g transform="translate(1110 304)"><circle class="lan-halo" r="20" fill="url(#haloG)"/><rect x="-3" y="-12" width="6" height="6" rx="2" fill="#8A6A50"/><circle class="lan-body" r="9.5"/></g>
+          <g transform="translate(1290 316)"><circle class="lan-halo" r="20" fill="url(#haloG)"/><rect x="-3" y="-12" width="6" height="6" rx="2" fill="#8A6A50"/><circle class="lan-body" r="9.5"/></g>
+        </g>
+
+        <!-- ── 商店街 · 六间小店 ── -->
+        <!-- ① 多满屋年糕店 -->
+        <g>
+          <rect class="w-a" x="80" y="360" width="180" height="140" rx="4"/>
+          <rect class="r-1" x="70" y="334" width="200" height="30" rx="9"/>
+          <g class="awn">
+            <rect class="aw-p" x="84" y="366" width="24" height="26" rx="4"/><rect class="aw-w" x="108" y="366" width="24" height="26" rx="4"/>
+            <rect class="aw-p" x="132" y="366" width="24" height="26" rx="4"/><rect class="aw-w" x="156" y="366" width="24" height="26" rx="4"/>
+            <rect class="aw-p" x="180" y="366" width="24" height="26" rx="4"/><rect class="aw-w" x="204" y="366" width="24" height="26" rx="4"/>
+            <rect class="aw-p" x="228" y="366" width="26" height="26" rx="4"/>
+          </g>
+          <circle class="win-halo" cx="129" cy="436" r="36" fill="url(#haloG)"/>
+          <rect class="win" x="98" y="408" width="62" height="56" rx="7"/>
+          <path d="M129 408v56M98 436h62" stroke="#C9AB8E" stroke-width="2.5" opacity=".8"/>
+          <rect class="door" x="186" y="416" width="48" height="84" rx="7"/>
+          <rect class="win" x="198" y="428" width="24" height="22" rx="4"/>
+          <g transform="translate(244 404)"><circle r="17" fill="#FFF8EE" stroke="#D9BFA8" stroke-width="2.5"/>
+            <circle cx="0" cy="-6" r="4" fill="#F8AFC5"/><circle cx="0" cy="1" r="4" fill="#FFFDF5" stroke="#E4D2BC"/><circle cx="0" cy="8" r="4" fill="#A8C69F"/></g>
+        </g>
+        <!-- ② 花屋 -->
+        <g>
+          <rect class="w-b" x="280" y="368" width="180" height="132" rx="4"/>
+          <rect class="r-2" x="272" y="342" width="196" height="30" rx="9"/>
+          <g class="awn">
+            <rect class="aw-g" x="284" y="374" width="22" height="24" rx="4"/><rect class="aw-w" x="306" y="374" width="22" height="24" rx="4"/>
+            <rect class="aw-g" x="328" y="374" width="22" height="24" rx="4"/><rect class="aw-w" x="350" y="374" width="22" height="24" rx="4"/>
+            <rect class="aw-g" x="372" y="374" width="22" height="24" rx="4"/><rect class="aw-w" x="394" y="374" width="22" height="24" rx="4"/>
+            <rect class="aw-g" x="416" y="374" width="22" height="24" rx="4"/><rect class="aw-w" x="438" y="374" width="20" height="24" rx="4"/>
+          </g>
+          <circle class="win-halo" cx="330" cy="438" r="34" fill="url(#haloG)"/>
+          <rect class="win" x="300" y="412" width="60" height="52" rx="7"/>
+          <rect class="door" x="380" y="418" width="46" height="82" rx="7"/>
+          <g transform="translate(300 480)">
+            <path d="M0 0 h26 l-4 22 h-18 Z" fill="#C98A6B"/>
+            <circle cx="7" cy="-7" r="5" fill="#F591AC"/><circle cx="14" cy="-11" r="5" fill="#F6C453"/><circle cx="20" cy="-6" r="5" fill="#E88CA5"/>
+            <path d="M7 -4 L11 4 M14 -7 L13 4 M20 -3 L16 4" stroke="#7FA96B" stroke-width="2"/>
+          </g>
+          <g transform="translate(438 484)">
+            <path d="M0 0 h22 l-3 18 h-16 Z" fill="#C98A6B"/>
+            <circle cx="6" cy="-6" r="4.5" fill="#B7A6E8"/><circle cx="15" cy="-9" r="4.5" fill="#F8AFC5"/>
+            <path d="M6 -3 L9 2 M15 -5 L13 2" stroke="#7FA96B" stroke-width="2"/>
+          </g>
+        </g>
+        <!-- ③ 喫茶店 -->
+        <g>
+          <rect class="w-c" x="480" y="356" width="180" height="144" rx="4"/>
+          <rect class="r-3" x="472" y="330" width="196" height="30" rx="9"/>
+          <circle class="win-halo" cx="540" cy="430" r="36" fill="url(#haloG)"/>
+          <rect class="win" x="500" y="400" width="80" height="60" rx="8"/>
+          <path d="M500 430 h80" stroke="#C9AB8E" stroke-width="2.5" opacity=".8"/>
+          <rect class="door" x="598" y="414" width="46" height="86" rx="7"/>
+          <rect class="win" x="609" y="426" width="24" height="22" rx="4"/>
+          <g transform="translate(648 392)"><circle r="17" fill="#FFF8EE" stroke="#D9BFA8" stroke-width="2.5"/>
+            <rect x="-7" y="-4" width="12" height="9" rx="2.5" fill="#C98A6B"/><path d="M5 -2 a4 4 0 0 1 0 7" fill="none" stroke="#C98A6B" stroke-width="2.5"/>
+            <path d="M-4 -7 q1.5 -3 0 -5 M1 -7 q1.5 -3 0 -5" stroke="#B49C89" stroke-width="1.8" fill="none"/></g>
+          <rect x="500" y="480" width="52" height="20" rx="4" fill="#8A6A50" opacity=".55"/>
+        </g>
+
+        <!-- 商店街拱门 -->
+        <g>
+          <rect class="arch-post" x="676" y="356" width="14" height="146" rx="5"/>
+          <rect class="arch-post" x="750" y="356" width="14" height="146" rx="5"/>
+          <rect class="arch-post" x="652" y="344" width="136" height="14" rx="7"/>
+          <rect class="arch-ear" x="668" y="272" width="14" height="26" rx="7"/>
+          <rect class="arch-ear" x="758" y="272" width="14" height="26" rx="7"/>
+          <rect class="arch-sign" x="656" y="290" width="128" height="52" rx="12"/>
+          <text class="arch-txt" x="720" y="325" text-anchor="middle" font-size="21" letter-spacing="2">兔山商店街</text>
+        </g>
+
+        <!-- ④ 唱片行 -->
+        <g>
+          <rect class="w-a" x="780" y="362" width="180" height="138" rx="4"/>
+          <rect class="r-4" x="772" y="336" width="196" height="30" rx="9"/>
+          <circle class="win-halo" cx="836" cy="434" r="34" fill="url(#haloG)"/>
+          <rect class="win" x="800" y="406" width="72" height="56" rx="7"/>
+          <path d="M836 406 v56" stroke="#C9AB8E" stroke-width="2.5" opacity=".8"/>
+          <rect class="door" x="892" y="416" width="46" height="84" rx="7"/>
+          <g transform="translate(948 398)"><circle r="17" fill="#FFF8EE" stroke="#D9BFA8" stroke-width="2.5"/>
+            <circle r="9" fill="#4A4160"/><circle r="2.6" fill="#F6C453"/></g>
+        </g>
+        <!-- ⑤ 豆腐店 -->
+        <g>
+          <rect class="w-b" x="980" y="368" width="180" height="132" rx="4"/>
+          <rect class="r-5" x="972" y="342" width="196" height="30" rx="9"/>
+          <g class="noren">
+            <rect x="996" y="374" width="148" height="34" rx="5" fill="#7FA0B8"/>
+            <path d="M1021 374 v34 M1046 374 v34 M1071 374 v34 M1096 374 v34 M1121 374 v34" stroke="#FFF7EE" stroke-width="3" opacity=".85"/>
+          </g>
+          <circle class="win-halo" cx="1036" cy="446" r="32" fill="url(#haloG)"/>
+          <rect class="win" x="1006" y="422" width="60" height="48" rx="7"/>
+          <rect class="door" x="1086" y="420" width="46" height="80" rx="7"/>
+          <path d="M1112 400 q4 -8 0 -14 q-4 -6 0 -12" fill="none" stroke="#D9C9B8" stroke-width="3" stroke-linecap="round" opacity=".9"/>
+          <path d="M1124 402 q4 -7 0 -12 q-3 -5 0 -10" fill="none" stroke="#D9C9B8" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+        </g>
+        <!-- ⑥ 杂货屋 -->
+        <g>
+          <rect class="w-c" x="1180" y="360" width="180" height="140" rx="4"/>
+          <rect class="r-6" x="1172" y="334" width="196" height="30" rx="9"/>
+          <g class="awn">
+            <rect class="aw-y" x="1184" y="366" width="24" height="26" rx="4"/><rect class="aw-w" x="1208" y="366" width="24" height="26" rx="4"/>
+            <rect class="aw-y" x="1232" y="366" width="24" height="26" rx="4"/><rect class="aw-w" x="1256" y="366" width="24" height="26" rx="4"/>
+            <rect class="aw-y" x="1280" y="366" width="24" height="26" rx="4"/><rect class="aw-w" x="1304" y="366" width="24" height="26" rx="4"/>
+            <rect class="aw-y" x="1328" y="366" width="26" height="26" rx="4"/>
+          </g>
+          <circle class="win-halo" cx="1240" cy="438" r="34" fill="url(#haloG)"/>
+          <rect class="win" x="1204" y="408" width="72" height="58" rx="7"/>
+          <path d="M1240 408 v58 M1204 437 h72" stroke="#C9AB8E" stroke-width="2.5" opacity=".8"/>
+          <rect class="door" x="1296" y="414" width="48" height="86" rx="7"/>
+          <g transform="translate(1352 400)"><circle r="16" fill="#FFF8EE" stroke="#D9BFA8" stroke-width="2.5"/>
+            <path d="M0 -8 L2.4 -2.4 8 0 2.4 2.4 0 8 -2.4 2.4 -8 0 -2.4 -2.4 Z" fill="#F6C453"/></g>
+        </g>
+
+        <!-- 街道与小物 -->
+        <rect class="grd2" x="0" y="500" width="1440" height="12"/>
+        <rect class="grd" x="0" y="512" width="1440" height="108"/>
+        <g opacity=".16"><rect x="120" y="546" width="46" height="9" rx="4.5" fill="#8A6A50"/><rect x="420" y="570" width="52" height="9" rx="4.5" fill="#8A6A50"/><rect x="760" y="552" width="46" height="9" rx="4.5" fill="#8A6A50"/><rect x="1060" y="574" width="52" height="9" rx="4.5" fill="#8A6A50"/><rect x="1300" y="548" width="42" height="9" rx="4.5" fill="#8A6A50"/></g>
+        <!-- 长椅 -->
+        <g transform="translate(420 506)"><rect x="0" y="0" width="64" height="9" rx="4" fill="#B98F72"/><rect x="4" y="9" width="7" height="18" rx="3" fill="#9A7458"/><rect x="53" y="9" width="7" height="18" rx="3" fill="#9A7458"/></g>
+        <!-- 自行车 -->
+        <g transform="translate(1040 496)" fill="none" stroke="#8A6A50" stroke-width="3.2" opacity=".85">
+          <circle cx="0" cy="22" r="15"/><circle cx="46" cy="22" r="15"/>
+          <path d="M0 22 L16 0 L38 0 L46 22 M16 0 L23 22 L0 22 M12 -4 h10 M42 -4 l4 4"/>
+        </g>
+        <!-- 盆栽 -->
+        <g transform="translate(268 486)"><path d="M0 0 h24 l-4 20 h-16 Z" fill="#C97B6B"/><ellipse cx="12" cy="-8" rx="12" ry="10" fill="#7FA96B"/><ellipse cx="5" cy="-13" rx="7" ry="6" fill="#8FBE8A"/></g>
+        <g transform="translate(672 486)"><path d="M0 0 h22 l-3 18 h-16 Z" fill="#C97B6B"/><ellipse cx="11" cy="-7" rx="10" ry="9" fill="#7FA96B"/></g>
+
+        <!-- 与正文的过渡 -->
+        <path class="melt" d="M0 596 Q 360 580 720 596 T 1440 596 L1440 620 L0 620 Z"/>
+      </svg>
+    </div>
+
+    <!-- 飞过的大福 -->
+    <svg class="hero-bird" viewBox="0 0 100 100" aria-hidden="true">
+      <ellipse class="wing wing-b" cx="24" cy="46" rx="14" ry="8" fill="#F3E3CE"/>
+      <circle cx="52" cy="52" r="28" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+      <ellipse cx="52" cy="61" rx="17" ry="12" fill="#FFEFD6"/>
+      <path d="M52 26 q3 -8 10 -6" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="44" cy="46" r="3" fill="#4A3A30"/><circle cx="62" cy="46" r="3" fill="#4A3A30"/>
+      <circle cx="38" cy="53" r="4" fill="#F8AFC5" opacity=".85"/><circle cx="68" cy="53" r="4" fill="#F8AFC5" opacity=".85"/>
+      <path d="M48 51 Q53 45 58 51 Q53 56 48 51" fill="#F2A65A"/>
+      <path d="M52 71 c-3 -3.6 -8 -1 -5.4 3 l5.4 4 5.4 -4 c2.6 -4 -2.4 -6.6 -5.4 -3" fill="#E4573D"/>
+      <ellipse class="wing wing-f" cx="30" cy="50" rx="15" ry="9" fill="#FFF3E2" stroke="#E8D5BC" stroke-width="2"/>
+    </svg>
+
+    <!-- 说说轮播条 -->
+    <button class="hero-moment" id="hero-moment" title="来自碎碎念">💬 <span>加载中…</span></button>
+
+    <div class="wrap hero-grid">
+      <div class="hero-left">
+        <p class="hi-pill">🍡 欢迎光临 · いらっしゃいませ</p>
+        <h1 class="hero-title">日常明朗，<br><em>年糕可爱。</em></h1>
+        <p class="hero-domain">USAGIYAMA · NOTES</p>
+        <p class="hero-type"><span id="typing"></span><span class="caret"></span></p>
+        <div class="hero-tiles">
+          <a class="tile" href="archive.html#cat-tech" style="--tile-c:#7FA0D8">
+            <span class="tile-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M13 4l-2 16"/></svg></span>
+            <span class="tile-tx"><b>技术手记</b><i>Code</i></span>
+          </a>
+          <a class="tile" href="archive.html#cat-anime" style="--tile-c:#F07E9C">
+            <span class="tile-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="7" width="18" height="13" rx="3"/><path d="m8 2 4 5 4-5"/></svg></span>
+            <span class="tile-tx"><b>追番观察</b><i>Anime</i></span>
+          </a>
+          <a class="tile" href="archive.html#cat-trip" style="--tile-c:#E8A25A">
+            <span class="tile-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+            <span class="tile-tx"><b>圣地巡礼</b><i>Trip</i></span>
+          </a>
+          <a class="tile" href="archive.html#cat-life" style="--tile-c:#7FA96B">
+            <span class="tile-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20c0-9 5-14 16-16-1 11-6 16-13 16"/><path d="M4 20c2-5 5-9 10-12"/></svg></span>
+            <span class="tile-tx"><b>生活切片</b><i>Life</i></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 随便逛逛 · 随机推荐卡 -->
+      <aside class="hero-reco" id="hero-reco" aria-label="随机推荐">
+        <div class="hr-top"><span>✨ 随便逛逛</span><button id="reco-next" title="换一篇">换一篇 ↻</button></div>
+        <a class="hr-link" id="reco-link" href="#">
+          <div class="hr-cover" id="reco-cover"></div>
+          <b id="reco-title">…</b>
+          <span class="hr-meta" id="reco-meta"></span>
+        </a>
+      </aside>
+    </div>
+
+    <a class="hero-down" href="#feed-sec" aria-label="向下浏览">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m5 9 7 7 7-7"/></svg>
+    </a>
+  </section>
+
+  <!-- ═══ 主体 ═══ -->
+  <main class="wrap main-grid" id="feed-sec">
+    <div class="feed-col">
+      <div class="sec-head rise">
+        <h2>最新文章</h2><span>RECENT POSTS</span>
+        <a class="sec-more" href="archive.html">查看归档 →</a>
+      </div>
+      <div id="feed"><noscript><p style="padding:20px">本站文章列表需要 JavaScript 渲染，请开启后刷新；或直接访问 <a href="archive.html">归档页</a>。</p></noscript></div>
+      <div class="more-row rise">
+        <a class="btn-mochi" href="archive.html">🍡 在归档里继续逛</a>
+      </div>
+    </div>
+
+    <!-- ── 侧栏 ── -->
+    <aside class="side">
+      <!-- 作者卡 -->
+      <section class="scard author-card rise">
+        <p class="au-hi">你好呀，我是</p>
+        <div class="avatar" aria-hidden="true">
+          <svg viewBox="0 0 100 100">
+            <rect width="100" height="100" fill="#FFE9D2"/>
+            <circle cx="50" cy="58" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+            <ellipse cx="50" cy="68" rx="19" ry="12" fill="#FFEFD6"/>
+            <path d="M50 28 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="40" cy="51" r="3.4" fill="#4A3A30"/><circle cx="60" cy="51" r="3.4" fill="#4A3A30"/>
+            <circle cx="33" cy="59" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="59" r="4.5" fill="#F8AFC5" opacity=".85"/>
+            <path d="M44 56 Q50 49 56 56 Q50 63 44 56" fill="#F2A65A"/>
+            <path d="M50 79 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+          </svg>
+        </div>
+        <b class="au-name">麻薯</b>
+        <p class="au-bio">在商店街写代码的店主。<br>喜欢京阿尼、年糕和恰到好处的日常。</p>
+        <div class="au-stats">
+          <a href="archive.html"><b id="stat-posts">-</b><span>文章</span></a>
+          <a href="archive.html"><b>4</b><span>分类</span></a>
+          <a href="archive.html"><b id="stat-tags">-</b><span>标签</span></a>
+        </div>
+        <div class="au-social">
+          <a href="https://github.com/yourname" title="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.58 9.58 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .26.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a>
+          <a href="atom.xml" title="RSS 订阅" aria-label="RSS"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3a16 16 0 0 1 16 16h-3A13 13 0 0 0 5 6V3Zm0 6a10 10 0 0 1 10 10h-3a7 7 0 0 0-7-7V9Zm2.5 7.5A2.5 2.5 0 1 1 5 19a2.5 2.5 0 0 1 2.5-2.5Z"/></svg></a>
+          <a href="mailto:mochi@example.com" title="邮箱" aria-label="邮箱"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 7 9 6 9-6"/></svg></a>
+          <a href="friends.html" title="友链" aria-label="友链"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg></a>
+        </div>
+      </section>
+
+      <!-- 公告 -->
+      <section class="scard notice-card rise">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>公告栏</h3>
+        <p>🎉 兔山手帖开张啦！本站是一个<b>零依赖纯静态</b>博客，源码可在 GitHub 直接取用。</p>
+        <p>🌙 点击右上角开关，可以看到<b>商店街点灯</b>的样子。</p>
+      </section>
+
+      <!-- 音乐盒 -->
+      <section class="scard music-card rise" id="music-card">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></svg>商店街音乐盒</h3>
+        <div class="mc-row">
+          <div class="vinyl" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <g class="disc"><circle cx="32" cy="32" r="28" fill="#3A3450"/><circle cx="32" cy="32" r="27" fill="none" stroke="#4E4668" stroke-width="1.6" stroke-dasharray="2 5"/><circle cx="32" cy="32" r="18" fill="none" stroke="#4E4668" stroke-width="1"/><circle cx="32" cy="32" r="10" fill="#F8AFC5"/><circle cx="32" cy="32" r="3" fill="#FFF7EE"/></g>
+            </svg>
+          </div>
+          <div class="mc-info">
+            <b>《商店街的午后》</b>
+            <span>八音盒 · 本站原创 BGM</span>
+            <div class="mc-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <button class="mc-btn" id="music-btn" aria-label="播放 / 暂停">
+            <svg class="ic-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5Z"/></svg>
+            <svg class="ic-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/></svg>
+          </button>
+        </div>
+        <p class="mc-hint">♪ 用 Web Audio 现场合成，不加载任何音频文件</p>
+      </section>
+
+      <!-- 碎碎念 -->
+      <section class="scard rise">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.4-2.9A8 8 0 1 1 21 12Z"/></svg>碎碎念</h3>
+        <div id="moment-box"></div>
+        <div class="moment-dots" id="moment-dots"></div>
+      </section>
+
+      <!-- 热门标签 -->
+      <section class="scard rise">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 12 9-9 9 9-9 9-9-9Z" transform="rotate(45 12 12)"/><circle cx="12" cy="8.5" r="1.4" fill="currentColor"/></svg>热门标签</h3>
+        <div class="tag-cloud" id="tag-cloud"></div>
+      </section>
+
+      <!-- 归档 -->
+      <section class="scard rise">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9M10 13h4"/></svg>归档</h3>
+        <ul class="mini-arc" id="mini-arc"></ul>
+      </section>
+
+      <!-- 商店街时钟 -->
+      <section class="scard clock-card rise">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>商店街时钟</h3>
+        <svg class="clock-face" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="54" fill="var(--card)" stroke="var(--line)" stroke-width="3"/>
+          <circle cx="60" cy="14" r="4" fill="#F8AFC5"/><circle cx="106" cy="60" r="3" fill="#A8C69F"/><circle cx="60" cy="106" r="3" fill="#F6C453"/><circle cx="14" cy="60" r="3" fill="#B7A6E8"/>
+          <g stroke="var(--ink-3)" stroke-width="2" stroke-linecap="round" opacity=".55">
+            <path d="M83 20.2 81 23.7M99.8 37 96.3 39M99.8 83 96.3 81M83 99.8 81 96.3M37 99.8 39 96.3M20.2 83 23.7 81M20.2 37 23.7 39M37 20.2 39 23.7"/>
+          </g>
+          <line id="hand-h" x1="60" y1="60" x2="60" y2="34" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+          <line id="hand-m" x1="60" y1="60" x2="60" y2="24" stroke="var(--ink-2)" stroke-width="3.4" stroke-linecap="round"/>
+          <line id="hand-s" x1="60" y1="64" x2="60" y2="20" stroke="#F07E9C" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="60" cy="60" r="4.5" fill="#F07E9C"/>
+        </svg>
+        <div class="clock-digit" id="clock-digit">--:--:--</div>
+        <div class="clock-date" id="clock-date"></div>
+        <span class="open-pill" id="open-pill">· 商店街营业中 ·</span>
+      </section>
+
+      <!-- 站点资讯 -->
+      <section class="scard rise">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v9h5v-5h4v5h5v-9"/></svg>站点资讯</h3>
+        <ul class="site-stats">
+          <li><span>文章总数</span><b id="stat-posts2">-</b></li>
+          <li><span>全站字数</span><b id="stat-words">-</b></li>
+          <li><span>建站天数</span><b><span class="js-days">-</span> 天</b></li>
+          <li><span>你来过</span><b><span id="visit-count">-</span> 次</b></li>
+          <li><span>最后更新</span><b id="stat-updated">-</b></li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <!-- ═══ 页脚 ═══ -->
+  <footer class="footer">
+    <svg class="footer-sky" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L0 34 Q 180 0 360 30 T 720 28 T 1080 32 T 1440 26 L1440 70 Z"/></svg>
+    <div class="wrap footer-inner">
+      <div class="f-cols">
+        <div>
+          <h4>兔山手帖</h4>
+          <p>一间开在 GitHub Pages 上的小店：写代码、追京阿尼、收集日常里的小确幸。全站零依赖、纯手工。</p>
+          <div class="f-badges">
+            <span class="fb">🍡 Mochi 主题 v2.0</span>
+            <span class="fb">⚡ 零框架 · 零构建</span>
+            <span class="fb">🌸 手绘 SVG 全景</span>
+          </div>
+        </div>
+        <div>
+          <h4>逛逛</h4>
+          <ul>
+            <li><a href="archive.html">📦 文章归档</a></li>
+            <li><a href="bangumi.html">📺 我的追番</a></li>
+            <li><a href="friends.html">🔗 友情链接</a></li>
+            <li><a href="about.html">🍵 关于本站</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>老地方</h4>
+          <ul>
+            <li><a href="https://github.com/yourname" target="_blank" rel="noopener">GitHub 仓库</a></li>
+            <li><a href="posts/github-pages-deploy.html">部署这个博客</a></li>
+            <li><a href="posts/hello-usagiyama.html">本站是怎么做的</a></li>
+            <li><a href="mailto:mochi@example.com">给店主写信</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="f-bar">
+        <span>© <span class="js-year">2026</span> 麻薯 · 兔山手帖</span>
+        <span>本站已营业 <b class="js-days">-</b> 天</span>
+        <span>由 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 强力驱动</span>
+        <span><a href="https://icp.gov.moe" target="_blank" rel="noopener">萌ICP备20260701号</a></span>
+        <span>文字内容 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 · 迷路的大福</title>
+  <meta name="robots" content="noindex">
+  <style>
+    /* 404 页自带样式，保证在任何路径下都能正常显示 */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh; display: flex; flex-direction: column; gap: 18px;
+      align-items: center; justify-content: center; text-align: center;
+      font-family: "LXGW WenKai Screen", -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #FFF7EE; color: #5B4636; padding: 24px;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: #211F2E; color: #EFE3D5; }
+      .btn.ghost { border-color: #4E4668 !important; color: #C2B2A4 !important; }
+    }
+    .bird { width: 150px; animation: bob 3.4s ease-in-out infinite; }
+    @keyframes bob { 0%, 100% { transform: translateY(0) } 50% { transform: translateY(-12px) } }
+    h1 { font-size: 64px; letter-spacing: .1em; color: #F07E9C; line-height: 1.1; }
+    p { color: #9C8474; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
+    .btn {
+      display: inline-block; padding: 10px 26px; border-radius: 99px; text-decoration: none;
+      background: linear-gradient(135deg, #F07E9C, #F6A6BE); color: #fff;
+      box-shadow: 0 8px 20px rgba(240, 126, 156, .35); transition: transform .3s;
+    }
+    .btn.ghost { background: none; border: 1.5px solid #EBD5C0; color: #8C7360; box-shadow: none; }
+    .btn:hover { transform: translateY(-3px); }
+  </style>
+</head>
+<body>
+  <svg class="bird" viewBox="0 0 120 110" aria-hidden="true">
+    <ellipse cx="60" cy="103" rx="30" ry="5" fill="rgba(120,80,50,.13)"/>
+    <ellipse cx="28" cy="60" rx="13" ry="9" fill="#F3E3CE" transform="rotate(28 28 60)"/>
+    <ellipse cx="92" cy="60" rx="13" ry="9" fill="#F3E3CE" transform="rotate(-28 92 60)"/>
+    <circle cx="60" cy="58" r="35" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3.4"/>
+    <ellipse cx="60" cy="71" rx="22" ry="14" fill="#FFEFD6"/>
+    <path d="M60 23 q3 -10 12 -8" fill="none" stroke="#E0C6AC" stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M44 50 q4 -4 8 0 M68 50 q4 -4 8 0" stroke="#4A3A30" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="39" cy="60" r="5" fill="#F8AFC5" opacity=".85"/><circle cx="81" cy="60" r="5" fill="#F8AFC5" opacity=".85"/>
+    <path d="M52.5 58 Q60 50 67.5 58 Q60 66 52.5 58" fill="#F2A65A"/>
+    <path d="M60 83 c-4 -4.5 -10 -1 -6.6 3.8 l6.6 5 6.6 -5 c3.4 -4.8 -2.6 -8.3 -6.6 -3.8" fill="#E4573D"/>
+    <ellipse cx="51" cy="96" rx="5.5" ry="2.8" fill="#E8A25A"/><ellipse cx="69" cy="96" rx="5.5" ry="2.8" fill="#E8A25A"/>
+    <text x="98" y="30" font-size="18">💦</text>
+  </svg>
+  <h1>404</h1>
+  <p>大福衔着你要找的页面飞丢了……<br>可能是链接搬家了，也可能它从来只是个传说。</p>
+  <div class="row">
+    <a class="btn" id="home-link" href="./">🍡 回商店街</a>
+    <a class="btn ghost" href="javascript:history.back()">← 返回上一页</a>
+  </div>
+  <script>
+    // GitHub Pages 项目页下，把「回家」指向仓库根目录
+    (function () {
+      var seg = location.pathname.split('/').filter(Boolean);
+      if (location.hostname.endsWith('github.io') && seg.length > 0) {
+        document.getElementById('home-link').href = '/' + seg[0] + '/';
+      } else {
+        document.getElementById('home-link').href = '/';
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>你好，兔山商店街：本站开张记 · 兔山手帖</title>
+  <meta name="description" content="零框架、零构建、零依赖——用最朴素的 HTML/CSS/JS 开一家自己的小店。">
+  <meta name="theme-color" content="#FFF7EE">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="post-page" data-root="../" data-post="hello-usagiyama">
+  <header class="site-head solid">
+    <div class="wrap">
+      <a class="brand" href="../index.html" aria-label="回到首页">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="54" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+          <ellipse cx="50" cy="64" rx="19" ry="13" fill="#FFEFD6"/>
+          <path d="M50 24 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="47" r="3.4" fill="#4A3A30"/><circle cx="60" cy="47" r="3.4" fill="#4A3A30"/>
+          <circle cx="33" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/>
+          <path d="M44 52 Q50 45 56 52 Q50 59 44 52" fill="#F2A65A"/>
+          <path d="M50 75 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+        </svg>
+        <span class="brand-txt"><b>兔山手帖</b><i>USAGIYAMA NOTES</i></span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="../index.html">首页</a>
+        <a href="../archive.html">归档</a>
+        <a href="../bangumi.html">追番</a>
+        <a href="../friends.html">友链</a>
+        <a href="../about.html">关于</a>
+      </nav>
+      <div class="head-btns">
+        <button class="hbtn" id="search-btn" aria-label="搜索（Ctrl+K）" title="搜索 Ctrl+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        </button>
+        <button class="hbtn" id="theme-btn" aria-label="切换昼夜">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.3 4.3l1.7 1.7M18 18l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"/></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.4 14.2A8.5 8.5 0 1 1 9.8 3.6a7 7 0 1 0 10.6 10.6Z"/></svg>
+        </button>
+        <button class="hbtn" id="burger" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="m-nav" aria-label="移动端导航">
+    <a href="../index.html">🏠 首页</a>
+    <a href="../archive.html">📦 归档</a>
+    <a href="../bangumi.html">📺 追番</a>
+    <a href="../friends.html">🔗 友链</a>
+    <a href="../about.html">🍵 关于</a>
+  </nav>
+
+  <div class="post-hero">
+    <div class="ph-bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <span class="ph-cat" style="--cat-c:#7FA0D8">技术手记</span>
+      <h1>你好，兔山商店街：本站开张记</h1>
+      <div class="post-meta">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>2026-07-01</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>约 5 分钟</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2Zm0 0A2.5 2.5 0 0 0 6.5 22H20"/></svg>约 1200 字</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap post-layout">
+    <article class="post-body">
+      <p>欢迎光临。这里是「兔山手帖」，一家今天刚挂上门帘的小店。店名偷师自《玉子市场》里的兔山商店街（うさぎ山商店街）——我一直觉得，个人博客最理想的样子，就是商店街上的一间小铺：不大，但什么都是自己挑的；不热闹，但常来的人都熟。</p>
+
+      <h2>为什么要自己盖房子</h2>
+      <p>在各种平台写了几年之后，我终于下决心搬出来，理由大概有三个：</p>
+      <ul>
+        <li><strong>房子是自己的</strong>。平台会改版、会限流、会消失，而一个静态站点托管在 GitHub 上，只要仓库还在，它就在。</li>
+        <li><strong>装修自由</strong>。想要一条会点灯的商店街？想让看板娘住在右下角？在自己的地盘上，这些都只是「写不写」的问题，而不是「能不能」的问题。</li>
+        <li><strong>写作回归写作</strong>。没有推荐算法的凝视，不用琢磨标题党。写给愿意专程来的人看，这种感觉很像在小店里招呼熟客。</li>
+      </ul>
+
+      <h2>选料：为什么是纯静态、零依赖</h2>
+      <p>动工之前我认真比较过几条路线：</p>
+      <table>
+        <thead><tr><th>方案</th><th>优点</th><th>代价</th></tr></thead>
+        <tbody>
+          <tr><td>Hexo / Hugo + 主题</td><td>生态成熟，开箱即用</td><td>要装 Node/Go，魔改主题像拆别人家的墙</td></tr>
+          <tr><td>Astro / Next 等框架</td><td>工程化能力强</td><td>对一个小博客来说，是用挖掘机种花</td></tr>
+          <tr><td>纯 HTML/CSS/JS</td><td>零构建、零依赖、完全可控</td><td>所有东西都得自己写</td></tr>
+        </tbody>
+      </table>
+      <p>最后选了第三条。「所有东西都得自己写」听起来是代价，但对一个想把博客当作品的人来说，这恰恰是乐趣本体。而且纯静态有个隐藏福利：<strong>把仓库下载下来双击 index.html，和线上域名访问的效果一模一样</strong>——本地即所得，部署零心智负担。</p>
+      <blockquote><p>年糕店的哲学：材料越简单，手艺越藏不住。</p></blockquote>
+
+      <h2>商店街的图纸</h2>
+      <p>整个站点的结构一目了然：</p>
+      <div class="codebox">
+        <div class="codebox-head"><i></i><i></i><i></i><span class="lang">text</span></div>
+        <pre><code>usagiyama-blog/
+├── index.html          <span class="cm"># 首页（商店街全景在这里）</span>
+├── archive.html        <span class="cm"># 归档 · 时间轴 + 分类筛选</span>
+├── bangumi.html        <span class="cm"># 追番页</span>
+├── friends.html        <span class="cm"># 友链</span>
+├── about.html          <span class="cm"># 关于</span>
+├── 404.html            <span class="cm"># 迷路的大福</span>
+├── css/style.css       <span class="cm"># 全站样式（昼夜两套配色）</span>
+├── js/data.js          <span class="cm"># 文章索引：加文章只改这里</span>
+├── js/main.js          <span class="cm"># 全部交互组件</span>
+└── posts/*.html        <span class="cm"># 文章正文</span></code></pre>
+      </div>
+      <p>发新文章的流程简单到不好意思写出来：复制一篇旧文改内容，再往 <code>data.js</code> 的数组里加一条记录。首页卡片、归档、搜索、上一篇/下一篇，全部自动更新。</p>
+
+      <h2>开张 Checklist</h2>
+      <ul>
+        <li>✅ 昼夜双场景的商店街全景（试试右上角的月亮按钮）</li>
+        <li>✅ 看板娘大福入驻右下角（连点三下有惊喜）</li>
+        <li>✅ 全站搜索、右键菜单、阅读进度这些小家电装修完毕</li>
+        <li>✅ 部署到 GitHub Pages（<a href="github-pages-deploy.html">完整笔记在这里</a>）</li>
+        <li>⬜ 评论区（打算接 Giscus，用 GitHub Discussions 存数据）</li>
+        <li>⬜ 更多文章（在锅里，快蒸好了）</li>
+      </ul>
+
+      <hr>
+      <p>开张第一天，没有剪彩，只有一场自己给自己下的年糕雨。如果你路过这里，欢迎在<a href="../friends.html">友链页</a>留下你的店铺地址——商店街嘛，邻居越多越热闹。</p>
+
+      <div class="copyright-card">
+        <b>本文信息</b><br>
+        作者：麻薯 · 首发于 <a href="../index.html">兔山手帖</a><br>
+        许可：<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>，转载请注明出处。
+      </div>
+      <div class="post-nav" id="post-nav"></div>
+      <div class="cmt-card">💬 评论区施工中 —— 计划接入 <b>Giscus</b>（基于 GitHub Discussions，纯静态友好）。<br>在 <code>giscus.app</code> 生成配置后，把脚本贴进本页即可。</div>
+    </article>
+
+    <aside class="toc-side">
+      <div class="toc-wrap">
+        <h4>本文目录</h4>
+        <nav class="toc" id="toc"></nav>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <svg class="footer-sky" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L0 34 Q 180 0 360 30 T 720 28 T 1080 32 T 1440 26 L1440 70 Z"/></svg>
+    <div class="wrap footer-inner">
+      <div class="f-bar">
+        <span>© <span class="js-year">2026</span> 麻薯 · 兔山手帖</span>
+        <span>本站已营业 <b class="js-days">-</b> 天</span>
+        <span>由 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 强力驱动</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

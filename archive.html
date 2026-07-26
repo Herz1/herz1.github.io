@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>归档 · 兔山手帖</title>
+  <meta name="description" content="兔山手帖的全部文章归档，按时间与分类整理。">
+  <meta name="theme-color" content="#FFF7EE">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-head solid">
+    <div class="wrap">
+      <a class="brand" href="index.html" aria-label="回到首页">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="54" r="30" fill="#FFF9F0" stroke="#E0C6AC" stroke-width="3"/>
+          <ellipse cx="50" cy="64" rx="19" ry="13" fill="#FFEFD6"/>
+          <path d="M50 24 q3 -9 11 -7" fill="none" stroke="#E0C6AC" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="40" cy="47" r="3.4" fill="#4A3A30"/><circle cx="60" cy="47" r="3.4" fill="#4A3A30"/>
+          <circle cx="33" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/><circle cx="67" cy="55" r="4.5" fill="#F8AFC5" opacity=".85"/>
+          <path d="M44 52 Q50 45 56 52 Q50 59 44 52" fill="#F2A65A"/>
+          <path d="M50 75 c-3.5 -4 -9 -1 -6 3.4 l6 4.6 6 -4.6 c3 -4.4 -2.5 -7.4 -6 -3.4" fill="#E4573D"/>
+        </svg>
+        <span class="brand-txt"><b>兔山手帖</b><i>USAGIYAMA NOTES</i></span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="index.html">首页</a>
+        <a href="archive.html" class="on">归档</a>
+        <a href="bangumi.html">追番</a>
+        <a href="friends.html">友链</a>
+        <a href="about.html">关于</a>
+      </nav>
+      <div class="head-btns">
+        <button class="hbtn" id="search-btn" aria-label="搜索（Ctrl+K）" title="搜索 Ctrl+K">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+        </button>
+        <button class="hbtn" id="theme-btn" aria-label="切换昼夜">
+          <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.6"/><path d="M12 2.5v2.4M12 19.1v2.4M4.3 4.3l1.7 1.7M18 18l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.3 19.7 6 18M18 6l1.7-1.7"/></svg>
+          <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.4 14.2A8.5 8.5 0 1 1 9.8 3.6a7 7 0 1 0 10.6 10.6Z"/></svg>
+        </button>
+        <button class="hbtn" id="burger" aria-label="菜单">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <nav class="m-nav" aria-label="移动端导航">
+    <a href="index.html">🏠 首页</a>
+    <a href="archive.html" class="on">📦 归档</a>
+    <a href="bangumi.html">📺 追番</a>
+    <a href="friends.html">🔗 友链</a>
+    <a href="about.html">🍵 关于</a>
+  </nav>
+
+  <div class="page-hero">
+    <span class="deco" style="left:12%;top:26%">📦</span>
+    <span class="deco" style="right:14%;top:58%;animation-delay:1.2s">🍡</span>
+    <h1>文章归档</h1>
+    <p>仓库里一共存了 <b id="arc-total">-</b> 篇文章，慢慢翻。</p>
+  </div>
+
+  <div class="page-body">
+    <div class="wrap narrow">
+      <div class="arc-toolbar" id="arc-tabs"></div>
+      <div id="arc-list"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <svg class="footer-sky" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 L0 34 Q 180 0 360 30 T 720 28 T 1080 32 T 1440 26 L1440 70 Z"/></svg>
+    <div class="wrap footer-inner">
+      <div class="f-bar">
+        <span>© <span class="js-year">2026</span> 麻薯 · 兔山手帖</span>
+        <span>本站已营业 <b class="js-days">-</b> 天</span>
+        <span>由 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 强力驱动</span>
+        <span><a href="https://icp.gov.moe" target="_blank" rel="noopener">萌ICP备20260701号</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    /* 归档页：按年月分组的时间轴 + 分类筛选 */
+    (function () {
+      const tabs = document.getElementById('arc-tabs');
+      const list = document.getElementById('arc-list');
+      document.getElementById('arc-total').textContent = POSTS.length;
+      const TABS = [['all', '全部'], ...Object.entries(CATS).map(([k, v]) => [k, v.name])];
+      let cur = (location.hash.match(/^#cat-(\w+)$/) || [])[1] || 'all';
+      if (!CATS[cur]) cur = 'all';
+
+      const render = () => {
+        const posts = POSTS.filter(p => cur === 'all' || p.cat === cur);
+        tabs.innerHTML = TABS.map(([k, n]) =>
+          `<button class="arc-tab${k === cur ? ' on' : ''}" data-k="${k}">${n}${k === 'all' ? ` · ${POSTS.length}` : ` · ${POSTS.filter(p => p.cat === k).length}`}</button>`).join('');
+        const byYear = {};
+        posts.forEach(p => { const y = p.date.slice(0, 4); (byYear[y] = byYear[y] || []).push(p); });
+        list.innerHTML = Object.keys(byYear).sort().reverse().map(y => `
+          <h2 class="arc-year">${y} <span>${byYear[y].length} 篇</span></h2>
+          <div class="timeline">
+            ${byYear[y].map(p => `
+              <div class="tl-item" style="--cat-c:${CATS[p.cat].c}">
+                <a href="${p.url}">
+                  <time>${p.date.slice(5).replace('-', ' / ')}</time>
+                  <span class="t">${p.title}</span>
+                  <span class="c">${CATS[p.cat].name}</span>
+                </a>
+              </div>`).join('')}
+          </div>`).join('') || '<p style="text-align:center;color:var(--ink-3);padding:30px 0">这个分类还是空的，年糕还在锅里 🍡</p>';
+      };
+      tabs.addEventListener('click', (e) => {
+        const b = e.target.closest('.arc-tab');
+        if (!b) return;
+        cur = b.dataset.k;
+        history.replaceState(null, '', cur === 'all' ? '#' : '#cat-' + cur);
+        render();
+      });
+      render();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 手动维护的 Atom 订阅源：发新文章时在最上方加一个 <entry>，
+     部署后把下面的 SITE_URL 全局替换成你的实际地址 -->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>兔山手帖</title>
+  <subtitle>麻薯、商店街与恰到好处的日常</subtitle>
+  <link href="https://yourname.github.io/usagiyama-blog/"/>
+  <link rel="self" href="https://yourname.github.io/usagiyama-blog/atom.xml"/>
+  <id>tag:usagiyama-blog,2026:site</id>
+  <updated>2026-07-26T00:00:00+08:00</updated>
+  <author><name>麻薯</name></author>
+
+  <entry>
+    <title>把这个博客部署到 GitHub Pages 的完整笔记</title>
+    <link href="https://yourname.github.io/usagiyama-blog/posts/github-pages-deploy.html"/>
+    <id>tag:usagiyama-blog,2026:github-pages-deploy</id>
+    <updated>2026-07-26T00:00:00+08:00</updated>
+    <summary>从本地文件夹到能用域名访问的网站，只需要一个仓库和三条命令。</summary>
+  </entry>
+  <entry>
+    <title>用纯 SVG 画一只圆滚滚的年糕鸟</title>
+    <link href="https://yourname.github.io/usagiyama-blog/posts/css-mochi-bird.html"/>
+    <id>tag:usagiyama-blog,2026:css-mochi-bird</id>
+    <updated>2026-07-24T00:00:00+08:00</updated>
+    <summary>本站看板娘「大福」的诞生记，附完整源码。</summary>
+  </entry>
+  <entry>
+    <title>为什么京阿尼的日常如此治愈：从《玉子市场》说起</title>
+    <link href="https://yourname.github.io/usagiyama-blog/posts/kyoani-healing.html"/>
+    <id>tag:usagiyama-blog,2026:kyoani-healing</id>
+    <updated>2026-07-20T00:00:00+08:00</updated>
+    <summary>光影、运镜，以及「什么都没发生」的勇气。</summary>
+  </entry>
+  <entry>
+    <title>京都圣地巡礼手账：出町柳、鸭川与商店街</title>
+    <link href="https://yourname.github.io/usagiyama-blog/posts/kyoto-pilgrimage.html"/>
+    <id>tag:usagiyama-blog,2026:kyoto-pilgrimage</id>
+    <updated>2026-07-15T00:00:00+08:00</updated>
+    <summary>《玉子市场》兔山商店街的原型就在出町柳。</summary>
+  </entry>
+  <entry>
+    <title>商店街的四季：一份生活切片</title>
+    <link href="https://yourname.github.io/usagiyama-blog/posts/four-seasons-street.html"/>
+    <id>tag:usagiyama-blog,2026:four-seasons-street</id>
+    <updated>2026-07-08T00:00:00+08:00</updated>
+    <summary>春天的樱饼、夏天的风铃、秋天的烤团子、冬天的灯串。</summary>
+  </entry>
+  <entry>
+    <title>你好，兔山商店街：本站开张记</title>
+    <link href="https://yourname.github.io/usagiyama-blog/posts/hello-usagiyama.html"/>
+    <id>tag:usagiyama-blog,2026:hello-usagiyama</id>
+    <updated>2026-07-01T00:00:00+08:00</updated>
+    <summary>零框架、零构建、零依赖——开一家自己的小店。</summary>
+  </entry>
+</feed>
