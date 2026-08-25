@@ -1,16 +1,14 @@
 /* ============================================================
    兔山手帖 · Bilibili 公开追番同步
-   仅使用公开 UID 与 JSONP，不读取 Cookie 或登录凭据。
+   仅使用公开 UID，经可配置 API 或本地代理读取，不接触 Cookie 或登录凭据。
    ============================================================ */
 
-(() => {
+(async () => {
   'use strict';
 
-  const API_URL = 'https://api.bilibili.com/x/space/bangumi/follow/list';
   const UID_KEY = 'usagiyama-bilibili-uid';
   const CACHE_PREFIX = 'usagiyama-bilibili-cache-v1';
   const PAGE_SIZE = 24;
-  const JSONP_TIMEOUT = 15000;
 
   const grid = document.getElementById('bangumi-grid');
   if (!grid) return;
@@ -36,8 +34,8 @@
     total: 0,
     items: [],
     loading: false,
-    callbackSequence: 0,
   };
+  let apiUrl = '';
 
   const statusLabels = {
     1: '想看',
@@ -57,6 +55,42 @@
     return queryUid || savedUid || configuredUid;
   }
 
+  function configuredApiUrl() {
+    if (typeof SITE === 'undefined') return '';
+    return String(SITE.bilibiliApiUrl || '').trim();
+  }
+
+  function isLocalHost() {
+    return ['localhost', '127.0.0.1', '::1', '[::1]'].includes(location.hostname.toLowerCase());
+  }
+
+  async function resolveApiUrl() {
+    const configured = configuredApiUrl();
+    if (configured) {
+      try {
+        return new URL(configured, document.baseURI).href;
+      } catch {
+        return '';
+      }
+    }
+    if (!isLocalHost()) return '';
+
+    // 本地完整服务器会为该路径返回 JSON；普通静态服务器返回 HTML 404。
+    const localEndpoint = new URL('api/bilibili/follows', document.baseURI);
+    try {
+      const response = await fetch(localEndpoint, {
+        headers: { Accept: 'application/json' },
+        cache: 'no-store',
+      });
+      const contentType = response.headers.get('content-type') || '';
+      return contentType.includes('application/json')
+        ? localEndpoint.href
+        : '';
+    } catch {
+      return '';
+    }
+  }
+
   function cacheKey() {
     return `${CACHE_PREFIX}:${state.uid}:${state.filter}`;
   }
@@ -64,6 +98,29 @@
   function setNotice(message, tone = '') {
     notice.textContent = message;
     notice.dataset.tone = tone;
+  }
+
+  function showStaticCards() {
+    document.documentElement.classList.remove('bili-sync-active');
+    grid.hidden = true;
+    loadWrap.hidden = true;
+  }
+
+  function activateLiveGrid() {
+    document.documentElement.classList.add('bili-sync-active');
+    grid.hidden = false;
+  }
+
+  function showUnavailable() {
+    showStaticCards();
+    setup.hidden = true;
+    refreshButton.hidden = true;
+    settingsButton.hidden = true;
+    clearButton.hidden = true;
+    toolbar.hidden = true;
+    accountTitle.textContent = '线上追番同步服务暂未启用';
+    accountMeta.textContent = '当前显示静态追番示例；配置独立 API 服务后即可启用在线同步。';
+    setNotice('线上追番同步服务暂未启用。', 'warn');
   }
 
   function setSetupOpen(open) {
@@ -158,7 +215,8 @@
   }
 
   async function proxyRequest(page) {
-    const url = new URL('api/bilibili/follows', document.baseURI);
+    if (!apiUrl) throw new Error('追番同步服务暂未启用。');
+    const url = new URL(apiUrl);
     url.searchParams.set('uid', state.uid);
     url.searchParams.set('page', String(page));
     url.searchParams.set('page_size', String(PAGE_SIZE));
@@ -177,66 +235,6 @@
       throw new Error(payload?.message || 'Bilibili 暂时拒绝了请求。');
     }
     return payload.data;
-  }
-
-  function jsonpRequest(page) {
-    return new Promise((resolve, reject) => {
-      const callbackName = `__usagiyamaBili_${Date.now()}_${state.callbackSequence += 1}`;
-      const script = document.createElement('script');
-      const url = new URL(API_URL);
-      const timeout = window.setTimeout(() => {
-        cleanup();
-        reject(new Error('同步超时，请稍后重试。'));
-      }, JSONP_TIMEOUT);
-
-      function cleanup() {
-        window.clearTimeout(timeout);
-        script.remove();
-        try {
-          delete window[callbackName];
-        } catch {
-          window[callbackName] = undefined;
-        }
-      }
-
-      window[callbackName] = (payload) => {
-        cleanup();
-        if (!payload || payload.code !== 0 || !payload.data) {
-          const message = payload?.message || 'Bilibili 暂时拒绝了请求。';
-          reject(new Error(message));
-          return;
-        }
-        resolve(payload.data);
-      };
-
-      url.searchParams.set('vmid', state.uid);
-      url.searchParams.set('type', '1');
-      url.searchParams.set('pn', String(page));
-      url.searchParams.set('ps', String(PAGE_SIZE));
-      url.searchParams.set('follow_status', String(state.filter));
-      url.searchParams.set('jsonp', 'jsonp');
-      url.searchParams.set('callback', callbackName);
-
-      script.async = true;
-      script.onerror = () => {
-        cleanup();
-        reject(new Error('无法连接 Bilibili，请检查网络后重试。'));
-      };
-      script.src = url.toString();
-      document.head.appendChild(script);
-    });
-  }
-
-  async function requestPage(page) {
-    try {
-      return await proxyRequest(page);
-    } catch (proxyError) {
-      try {
-        return await jsonpRequest(page);
-      } catch {
-        throw proxyError;
-      }
-    }
   }
 
   function progressMarkup(item) {
@@ -296,6 +294,7 @@
   }
 
   function render() {
+    activateLiveGrid();
     grid.innerHTML = state.items.map(cardMarkup).join('');
     wireCoverFallbacks();
     grid.dataset.empty = String(state.items.length === 0);
@@ -304,6 +303,7 @@
   }
 
   function renderEmpty(message) {
+    activateLiveGrid();
     grid.innerHTML = `
       <div class="bili-empty">
         <span aria-hidden="true">📺</span>
@@ -358,7 +358,7 @@
 
     const requestedPage = reset ? 1 : state.page + 1;
     try {
-      const data = await requestPage(requestedPage);
+      const data = await proxyRequest(requestedPage);
       const incoming = (data.list || []).map(normalizeItem);
       const merged = reset ? incoming : [...state.items, ...incoming];
       state.items = [...new Map(merged.map((item) => [item.id, item])).values()];
@@ -375,7 +375,7 @@
       }
     } catch (error) {
       if (!state.items.length) {
-        renderEmpty('请确认 UID 正确、追番列表已公开，然后再次同步。');
+        showStaticCards();
       }
       setNotice(`同步失败：${error.message}${state.items.length ? '，已保留最近一次缓存。' : ''}`, 'error');
     } finally {
@@ -395,7 +395,7 @@
     updateAccountUi();
     setSetupOpen(false);
     if (!restoreCache()) {
-      grid.innerHTML = '';
+      showStaticCards();
       setNotice('账号已绑定，准备同步…');
     }
     loadPage({ reset: true });
@@ -429,9 +429,9 @@
     state.page = 0;
     state.total = 0;
     grid.innerHTML = '';
-    loadWrap.hidden = true;
+    showStaticCards();
     updateAccountUi();
-    setNotice('账号绑定已清除。');
+    setNotice('账号绑定已清除；当前显示静态追番示例。');
   });
 
   filterButtons.forEach((button) => {
@@ -444,12 +444,18 @@
       state.items = [];
       filterButtons.forEach((item) => item.classList.toggle('active', item === button));
       if (!restoreCache()) {
-        grid.innerHTML = '';
+        showStaticCards();
         setNotice(`正在读取“${button.textContent.trim()}”记录…`);
       }
       loadPage({ reset: true });
     });
   });
+
+  apiUrl = await resolveApiUrl();
+  if (!apiUrl) {
+    showUnavailable();
+    return;
+  }
 
   state.uid = getDefaultUid();
   updateAccountUi();
@@ -457,6 +463,7 @@
     restoreCache();
     loadPage({ reset: true });
   } else {
-    renderEmpty('绑定一个公开的 Bilibili UID 后，真实追番记录会显示在这里。');
+    showStaticCards();
+    setNotice('本地追番同步服务已就绪；绑定公开 UID 后可载入真实记录。');
   }
 })();

@@ -5,6 +5,7 @@ desktop.ini
 
 # Local runtime state and logs
 .local-server/
+.local-tools/
 *.log
 
 # Python cache

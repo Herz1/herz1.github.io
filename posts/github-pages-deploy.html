@@ -110,8 +110,8 @@
 <span class="fn">git</span> init -b main
 <span class="fn">git</span> add -A && <span class="fn">git</span> commit -m <span class="st">"🍡 开张"</span>
 
-<span class="cm"># 关联远端并推送（把 yourname 换成你的用户名）</span>
-<span class="fn">git</span> remote add origin https://github.com/yourname/usagiyama-blog.git
+<span class="cm"># 关联 Herz1 的用户主页仓库并推送</span>
+<span class="fn">git</span> remote add origin https://github.com/Herz1/herz1.github.io.git
 <span class="fn">git</span> push -u origin main</code></pre>
       </div>
 
@@ -130,8 +130,8 @@
 
       <h2>第四步（可选）：绑自己的域名</h2>
       <ul>
-        <li>在仓库根目录新建文件 <code>CNAME</code>，内容一行：<code>blog.example.com</code></li>
-        <li>去域名服务商加一条 DNS：<code>blog</code> 的 <strong>CNAME 记录</strong> 指向 <code>你的用户名.github.io</code></li>
+        <li>在仓库根目录新建文件 <code>CNAME</code>，内容只写你的正式域名</li>
+        <li>去域名服务商添加对应 DNS 记录；使用子域名时，将它的 <strong>CNAME 记录</strong> 指向 <code>herz1.github.io</code></li>
         <li>回到 Settings → Pages，填入域名并勾选 <strong>Enforce HTTPS</strong></li>
       </ul>
 

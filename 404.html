@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>404 · 迷路的大福</title>
   <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23F07E9C'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23FFF7EE'/%3E%3C/svg%3E">
   <style>
     /* 404 页自带样式，保证在任何路径下都能正常显示 */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,17 +51,21 @@
   <h1>404</h1>
   <p>大福衔着你要找的页面飞丢了……<br>可能是链接搬家了，也可能它从来只是个传说。</p>
   <div class="row">
-    <a class="btn" id="home-link" href="./">🍡 回商店街</a>
+    <a class="btn" id="home-link" href="/">🍡 回商店街</a>
     <a class="btn ghost" href="javascript:history.back()">← 返回上一页</a>
   </div>
   <script>
-    // GitHub Pages 项目页下，把「回家」指向仓库根目录
+    // Herz1 用户主页固定回到根目录；其他 GitHub Pages 仍兼容项目子路径。
     (function () {
+      var host = location.hostname.toLowerCase();
       var seg = location.pathname.split('/').filter(Boolean);
-      if (location.hostname.endsWith('github.io') && seg.length > 0) {
-        document.getElementById('home-link').href = '/' + seg[0] + '/';
+      var home = document.getElementById('home-link');
+      if (host === 'herz1.github.io') {
+        home.href = '/';
+      } else if (host.endsWith('.github.io') && seg.length > 0) {
+        home.href = '/' + seg[0] + '/';
       } else {
-        document.getElementById('home-link').href = '/';
+        home.href = '/';
       }
     })();
   </script>

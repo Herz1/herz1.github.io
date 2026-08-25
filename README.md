@@ -22,7 +22,7 @@
 ## 📂 目录结构
 
 ```
-usagiyama-blog/
+herz1.github.io/
 ├── index.html          # 首页（商店街全景）
 ├── archive.html        # 归档：时间轴 + 分类筛选
 ├── bangumi.html        # 追番页
@@ -35,21 +35,25 @@ usagiyama-blog/
 ├── js/main.js          # 全部交互组件（悬浮组件由 JS 注入）
 ├── js/bangumi.js       # Bilibili 公开追番同步 / 缓存 / 筛选
 ├── posts/*.html        # 文章正文
+├── tools/              # 本地 Python 服务与 PowerShell 管理脚本
+├── 一键启动网站.cmd     # Windows 本地完整模式启动器
+├── .nojekyll           # 禁用 GitHub Pages 的 Jekyll 处理
+├── LICENSE             # 程序代码的 MIT 许可证
 └── assets/favicon.svg  # 站点图标
 ```
 
 ## 🚀 本地预览
 
-纯静态，**双击 `index.html` 即可**，效果与线上完全一致。想要 `localhost` 地址的话：
-
-Windows 用户推荐直接双击根目录中的：
+页面本身是零构建的静态网站。需要完整的 Bilibili 实时同步时，Windows 用户推荐直接双击根目录中的：
 
 - `一键启动网站.cmd`：启动本地服务器并打开浏览器
 - `一键关闭网站.cmd`：只关闭本项目启动的服务器
 - `一键启动或关闭网站.cmd`：根据当前状态自动启动或关闭
 
 默认地址为 `http://127.0.0.1:4173/`，运行状态与日志保存在自动忽略的 `.local-server/` 目录中。
-追番页的 Bilibili 实时同步也由这个本地服务器安全转发公开数据；它不会读取账号 Cookie 或密码。
+追番页的 Bilibili 实时同步由这个本地 Python 服务安全转发公开数据；它不会读取账号 Cookie、密码或登录信息。
+
+只预览静态页面可运行：
 
 ```bash
 python -m http.server 4173
@@ -61,18 +65,24 @@ npx serve .
 
 ## ☁️ 部署到 GitHub Pages
 
-1. 在 GitHub 新建仓库（名字随意，如 `usagiyama-blog`）
-2. 推送本文件夹：
+本站按 GitHub 用户主页发布，目标仓库固定为 [`Herz1/herz1.github.io`](https://github.com/Herz1/herz1.github.io)，正式地址为 [`https://herz1.github.io/`](https://herz1.github.io/)。项目为零构建纯静态网站，无需 Node.js 或构建产物。
+
+1. 在 GitHub 新建公开仓库 `herz1.github.io`
+2. 首次准备发布时关联并推送本文件夹：
 
 ```bash
-git remote add origin https://github.com/<你的用户名>/usagiyama-blog.git
+git remote add origin https://github.com/Herz1/herz1.github.io.git
 git push -u origin main
 ```
 
 3. 仓库 **Settings → Pages** → Source 选 `Deploy from a branch`，分支选 `main` / `(root)`，保存
-4. 一两分钟后访问 `https://<你的用户名>.github.io/usagiyama-blog/`
+4. 发布完成后访问 `https://herz1.github.io/`
 
-全站使用相对路径，项目页 / 用户主页（`<用户名>.github.io` 仓库）/ 自定义域名（加 `CNAME` 文件）三种方式**无需改任何代码**。图文版教程见站内文章[《把这个博客部署到 GitHub Pages 的完整笔记》](posts/github-pages-deploy.html)。
+GitHub Pages 只托管 HTML、CSS、JavaScript、图片和订阅源等静态文件，**不会运行** `tools/site-server.py` 或 Windows 启动器。本地 Python 代理会继续保留在仓库中供本机使用；线上 Bilibili 同步以后由独立的 Cloudflare Worker 等 API 服务提供。
+
+线上 API 部署完成后，只需在 `js/data.js` 中把 `SITE.bilibiliApiUrl` 填为完整接口地址。该配置留空时，Pages 不会请求不存在的 `/api/`，追番页会显示静态示例与“线上追番同步服务暂未启用”的提示。不要把 Cookie、API Key 或密码写入前端配置。
+
+将来绑定正式域名时，可在 **Settings → Pages → Custom domain** 配置，并按 GitHub 提示设置 DNS；确认域名后再添加对应的 `CNAME` 文件。图文版教程见站内文章[《把这个博客部署到 GitHub Pages 的完整笔记》](posts/github-pages-deploy.html)。
 
 ## ✍️ 写新文章
 
@@ -88,8 +98,8 @@ git push -u origin main
 | 站名 / 昵称 / 开站日期 | `js/data.js` 的 `SITE`，以及各页 `<header>` 品牌区 |
 | 主色调 | `css/style.css` 顶部的设计令牌（`--pink` 等） |
 | 打字机文案 / 看板娘台词 / 碎碎念 | `js/data.js` |
-| 社交链接（GitHub / 邮箱） | `index.html` 作者卡 + 页脚（搜 `yourname`） |
-| 追番默认账号 | `js/data.js` 的 `SITE.bilibiliUid`（也可在追番页临时绑定） |
+| 社交链接 | `index.html` 作者卡 + 页脚（公开邮箱未配置，当前只显示 GitHub） |
+| 追番账号 / 线上 API | `js/data.js` 的 `SITE.bilibiliUid` / `SITE.bilibiliApiUrl` |
 | 友链内容 | `friends.html`（纯 HTML 卡片） |
 | 评论区 | 在 [giscus.app](https://giscus.app) 生成脚本，替换文章页的 `.cmt-card` |
 
@@ -99,7 +109,9 @@ git push -u origin main
 
 本项目为个人粉丝向作品，页面风格致敬京都动画《玉子市场》等治愈系作品；**全部美术素材均为原创手绘 SVG**，未使用任何官方图像，与京都动画株式会社无隶属关系。
 
-## 📄 许可
+## 📄 双重许可
 
-- 代码：MIT
-- 文章内容：CC BY-NC-SA 4.0
+- **程序代码：MIT License。** 包括 HTML 页面结构、CSS、JavaScript、Python、PowerShell 与 CMD 脚本；完整条款见 [`LICENSE`](LICENSE)。
+- **原创文章内容：CC BY-NC-SA 4.0。** `posts/` 中的原创文章文字（另有声明的除外）采用[署名—非商业性使用—相同方式共享 4.0 国际](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)。
+
+MIT License 不覆盖上述原创文章内容；转载文章时请遵守 CC BY-NC-SA 4.0 的署名、非商业和相同方式共享要求。
