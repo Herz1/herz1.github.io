@@ -9,6 +9,7 @@ const SITE = {
   since: '2026-07-01',        // 开站日 → 「已运行 N 天」
   author: '麻薯',
   words: '10.2k',             // 全站字数（手动维护）
+  bilibiliUid: '',            // 追番页默认账号 UID；留空时可在页面内绑定
 };
 
 const POSTS = [

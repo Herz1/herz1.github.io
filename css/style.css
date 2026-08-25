@@ -484,27 +484,86 @@ ul { list-style: none; }
 .tl-item .c { font-size: 11.5px; padding: 1px 10px; border-radius: 99px; color: #fff; background: var(--cat-c, var(--matcha)); opacity: .92; }
 
 /* ---------- 10. 追番 ---------- */
-.bgm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(252px, 1fr)); gap: 20px; }
-.bgm-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), box-shadow .35s; }
+.js .bgm-static { display: none; }
+.bili-sync-card { margin-bottom: 24px; background: color-mix(in srgb, var(--card) 92%, var(--pink-soft)); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 22px 24px; box-shadow: var(--shadow); }
+.bili-sync-main { display: flex; gap: 16px; align-items: center; }
+.bili-mark { width: 48px; height: 48px; flex: none; display: grid; place-items: center; border-radius: 15px; color: #fff; background: linear-gradient(145deg, #FB7299, #FF9DB8); box-shadow: 0 8px 18px rgba(251, 114, 153, .26); font: 800 22px/1 system-ui, sans-serif; }
+.bili-account { min-width: 0; flex: 1; }
+.bili-kicker { display: block; margin-bottom: 1px; color: #FB7299; font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.bili-account h2 { font-size: 18px; line-height: 1.45; }
+.bili-account p { margin-top: 2px; color: var(--ink-3); font-size: 12.5px; }
+.bili-actions { display: flex; gap: 9px; flex-wrap: wrap; justify-content: flex-end; }
+.bili-btn { border: 1px solid var(--line); border-radius: 99px; padding: 8px 16px; color: var(--ink-2); background: var(--card); font-size: 12.5px; transition: transform .2s, border-color .2s, color .2s, background .2s, opacity .2s; }
+.bili-btn:hover { transform: translateY(-2px); border-color: var(--pink); color: var(--pink-deep); }
+.bili-btn.primary { border-color: transparent; color: #fff; background: linear-gradient(135deg, #FB7299, #F391B1); }
+.bili-btn.quiet { background: transparent; }
+.bili-btn:disabled { cursor: wait; opacity: .55; transform: none; }
+.bili-setup { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 7px 14px; align-items: center; margin-top: 18px; padding-top: 18px; border-top: 1px dashed var(--line); }
+.bili-setup[hidden] { display: none; }
+.bili-setup label { color: var(--ink-2); font-size: 13px; font-weight: 700; }
+.bili-input-row { display: flex; gap: 8px; align-items: center; }
+.bili-input-row input { min-width: 0; flex: 1; height: 38px; border: 1px solid var(--line); border-radius: 11px; padding: 0 13px; outline: 0; color: var(--ink); background: var(--bg); font: inherit; font-size: 13.5px; transition: border-color .2s, box-shadow .2s; }
+.bili-input-row input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--pink) 20%, transparent); }
+.bili-setup small { grid-column: 2; color: var(--ink-3); font-size: 11px; }
+.bili-toolbar { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-top: 18px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.bili-toolbar[hidden] { display: none; }
+.bili-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.bili-filters button { border-radius: 99px; padding: 5px 13px; color: var(--ink-3); background: var(--bg-soft); font-size: 12px; transition: color .2s, background .2s, transform .2s; }
+.bili-filters button:hover { color: var(--pink-deep); transform: translateY(-1px); }
+.bili-filters button.active { color: #fff; background: var(--pink); }
+.bili-toolbar > a { flex: none; color: #FB7299; font-size: 12px; }
+.bili-notice { min-height: 1.5em; margin-top: 12px; color: var(--ink-3); font-size: 11.5px; }
+.bili-notice[data-tone="success"] { color: var(--matcha); }
+.bili-notice[data-tone="warn"] { color: var(--lantern); }
+.bili-notice[data-tone="error"] { color: var(--pink-deep); }
+.bgm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(286px, 1fr)); gap: 22px; }
+.bgm-grid[data-empty="true"] { display: block; }
+.bgm-card { height: 100%; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); transition: transform .35s cubic-bezier(.34, 1.56, .64, 1), box-shadow .35s; }
 .bgm-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
-.bgm-cover { position: relative; height: 128px; overflow: hidden; background: linear-gradient(135deg, var(--g1, #F8AFC5), var(--g2, #B7A6E8)); }
-.bgm-cover::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 82% 120%, rgba(255, 255, 255, .38), transparent 55%); }
+.bangumi-live-card { opacity: 0; animation: bangumi-card-in .55s cubic-bezier(.22, 1, .36, 1) forwards; animation-delay: var(--card-delay, 0ms); }
+@keyframes bangumi-card-in { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+.bili-card-link { display: flex; flex-direction: column; height: 100%; color: inherit; }
+.bgm-cover { position: relative; height: 176px; overflow: hidden; background: linear-gradient(135deg, var(--g1, #F8AFC5), var(--g2, #B7A6E8)); }
+.bgm-cover::before { content: ""; position: absolute; z-index: 1; inset: 0; background: radial-gradient(circle at 82% 120%, rgba(255, 255, 255, .25), transparent 55%); pointer-events: none; }
+.bili-cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .7s cubic-bezier(.22, 1, .36, 1), filter .4s; }
+.bgm-card:hover .bili-cover-image { transform: scale(1.055); filter: saturate(1.06); }
+.bili-cover-shade { position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(20, 17, 30, .18) 0%, rgba(20, 17, 30, .03) 38%, rgba(20, 17, 30, .72) 100%); }
+.bili-cover-top { position: absolute; z-index: 2; left: 12px; right: 12px; top: 11px; display: flex; gap: 8px; justify-content: space-between; align-items: flex-start; }
+.bili-cover-badge, .bili-year { padding: 3px 9px; border-radius: 99px; color: #fff; background: rgba(30, 24, 40, .52); box-shadow: 0 3px 12px rgba(0, 0, 0, .14); backdrop-filter: blur(7px); font: 700 10.5px/1.45 system-ui, sans-serif; }
+.bili-cover-badge { background: rgba(251, 114, 153, .88); }
+.bili-cover-tags { position: absolute; z-index: 2; left: 12px; bottom: 12px; display: flex; gap: 5px; max-width: calc(100% - 86px); overflow: hidden; }
+.bili-cover-tags span { flex: none; padding: 3px 8px; border-radius: 99px; color: rgba(255, 255, 255, .94); background: rgba(28, 23, 36, .5); backdrop-filter: blur(7px); font-size: 10px; }
 .bgm-cover .em { position: absolute; left: 18px; bottom: 10px; font-size: 46px; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .18)); transition: transform .4s cubic-bezier(.34, 1.56, .64, 1); }
 .bgm-card:hover .em { transform: scale(1.15) rotate(-6deg); }
 .bgm-cover .jp { position: absolute; right: 14px; top: 10px; font-size: 11px; color: rgba(255, 255, 255, .85); writing-mode: vertical-rl; letter-spacing: .3em; }
-.bgm-state { position: absolute; right: 12px; bottom: 12px; font-size: 11px; color: #fff; padding: 2px 11px; border-radius: 99px; backdrop-filter: blur(5px); }
+.bgm-state { position: absolute; z-index: 3; right: 12px; bottom: 12px; font-size: 11px; color: #fff; padding: 3px 11px; border-radius: 99px; background: rgba(126, 118, 145, .85); box-shadow: 0 3px 10px rgba(0, 0, 0, .14); backdrop-filter: blur(6px); }
 .bgm-state.done { background: color-mix(in srgb, var(--matcha) 78%, black 10%); }
 .bgm-state.doing { background: color-mix(in srgb, var(--lantern) 82%, black 8%); }
-.bgm-body { padding: 15px 17px 16px; }
-.bgm-body b { font-size: 15.5px; display: block; line-height: 1.45; }
+.bgm-state.status-1 { background: rgba(145, 125, 184, .9); }
+.bgm-state.status-2 { background: rgba(234, 155, 77, .92); }
+.bgm-state.status-3 { background: rgba(111, 156, 101, .92); }
+.bgm-body { display: flex; flex: 1; flex-direction: column; padding: 16px 17px 15px; }
+.bgm-body b, .bgm-body h2 { font-size: 15.5px; display: block; line-height: 1.45; }
 .bgm-body .yr { font-size: 11.5px; color: var(--ink-3); }
 .stars { color: var(--gold); font-size: 13px; letter-spacing: 2.5px; margin: 5px 0 6px; }
 .stars i { color: var(--line); font-style: normal; }
 .stars em { font-style: normal; font-size: 11.5px; color: var(--ink-3); letter-spacing: 0; margin-left: 6px; }
-.bgm-body p { font-size: 12.5px; color: var(--ink-2); line-height: 1.7; }
+.bili-rating { margin: 7px 0 6px; color: var(--gold); font-size: 12px; font-weight: 700; }
+.bili-rating em { margin-left: 7px; color: var(--ink-3); font-size: 10.5px; font-style: normal; font-weight: 400; }
+.bili-rating.muted { color: var(--ink-3); font-weight: 400; }
+.bgm-body p { display: -webkit-box; min-height: 4.8em; overflow: hidden; color: var(--ink-2); font-size: 12.5px; line-height: 1.6; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
 .bgm-prog { height: 6px; border-radius: 99px; background: var(--bg-soft); margin-top: 11px; overflow: hidden; }
 .bgm-prog i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--pink), var(--lantern)); }
 .bgm-ep { font-size: 11px; color: var(--ink-3); margin-top: 5px; text-align: right; }
+.bili-card-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 10px; color: var(--ink-3); font-size: 10.5px; }
+.bili-card-foot span:first-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bili-card-foot span:last-child { flex: none; color: #FB7299; }
+.bili-empty { max-width: 560px; margin: 18px auto 4px; padding: 38px 24px; border: 1px dashed var(--line); border-radius: var(--r-lg); text-align: center; background: var(--card); }
+.bili-empty > span { display: block; margin-bottom: 8px; font-size: 34px; }
+.bili-empty h2 { font-size: 17px; }
+.bili-empty p { margin-top: 5px; color: var(--ink-3); font-size: 13px; }
+.bili-load-wrap { display: flex; justify-content: center; padding-top: 24px; }
+.bili-load-wrap[hidden] { display: none; }
 
 /* ---------- 11. 友链 ---------- */
 .fr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 18px; }
@@ -700,6 +759,24 @@ ul { list-style: none; }
   #backtop { right: 16px; bottom: 96px; }
   .post-nav { grid-template-columns: 1fr; }
   .hero-moment { max-width: 82vw; }
+  .bili-sync-card { padding: 18px; }
+  .bili-sync-main { align-items: flex-start; flex-wrap: wrap; }
+  .bili-account { flex-basis: calc(100% - 64px); }
+  .bili-actions { width: 100%; justify-content: flex-start; padding-left: 64px; }
+  .bili-setup { grid-template-columns: 1fr; }
+  .bili-setup small { grid-column: 1; }
+  .bili-toolbar { align-items: flex-start; flex-direction: column; }
+  .bgm-grid { grid-template-columns: repeat(auto-fill, minmax(248px, 1fr)); }
+}
+@media (max-width: 520px) {
+  .bili-input-row { align-items: stretch; flex-direction: column; }
+  .bili-input-row input { flex: none; width: 100%; }
+  .bili-input-row .bili-btn { width: 100%; }
+  .bili-actions { padding-left: 0; }
+  .bili-actions .bili-btn { flex: 1; }
+  .bili-toolbar > a { align-self: flex-end; }
+  .bgm-grid { grid-template-columns: 1fr; }
+  .bgm-cover { height: auto; aspect-ratio: 16 / 9; }
 }
 
 /* ---------- 16. 动画减弱 ---------- */

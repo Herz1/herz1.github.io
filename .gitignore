@@ -1,3 +1,47 @@
+# Operating-system metadata
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local runtime state and logs
+.local-server/
+*.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Environment files and local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies, build output, and test caches
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.vite/
+.next/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Editors and temporary files
+.idea/
+.vscode/
+.vs/
+*.suo
+*.user
+*.tmp
+*.bak
+*.swp
+*.swo
+*~

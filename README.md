@@ -13,11 +13,11 @@
 - 🎵 **原创八音盒 BGM《商店街的午后》**：Web Audio API 现场合成，仓库里没有任何音频文件
 - 🔍 全站搜索（`Ctrl + K`）、自定义右键菜单（`Shift + 右键` 回到系统菜单）
 - 🏷️ 文章「未读」徽标、相对时间（"3 天前"）、热门标签计数、按月归档 —— 致敬张洪Heo / 安知鱼
-- 📦 归档页时间轴 + 分类筛选、追番页（京阿尼作品集）、友链页、关于页、404 迷路大福
+- 📦 归档页时间轴 + 分类筛选、Bilibili 公开追番实时同步、友链页、关于页、404 迷路大福
 - 📖 文章页：目录高亮、阅读进度条、代码块一键复制、上一篇/下一篇自动生成
 - 🕐 商店街时钟（8:00–20:00 显示「营业中」，其余时间「打烊了」）
 - 📱 全站响应式 + `prefers-reduced-motion` 动画减弱支持
-- ⚡ **零框架、零构建、零依赖、零图片文件**：全部美术为手写 SVG
+- ⚡ **零框架、零构建、零依赖**：核心美术为手写 SVG，追番封面按需加载自 Bilibili
 
 ## 📂 目录结构
 
@@ -33,6 +33,7 @@ usagiyama-blog/
 ├── css/style.css       # 全站样式（昼/夜两套设计令牌）
 ├── js/data.js          # 站点数据：文章索引 / 台词 / 碎碎念
 ├── js/main.js          # 全部交互组件（悬浮组件由 JS 注入）
+├── js/bangumi.js       # Bilibili 公开追番同步 / 缓存 / 筛选
 ├── posts/*.html        # 文章正文
 └── assets/favicon.svg  # 站点图标
 ```
@@ -41,11 +42,22 @@ usagiyama-blog/
 
 纯静态，**双击 `index.html` 即可**，效果与线上完全一致。想要 `localhost` 地址的话：
 
+Windows 用户推荐直接双击根目录中的：
+
+- `一键启动网站.cmd`：启动本地服务器并打开浏览器
+- `一键关闭网站.cmd`：只关闭本项目启动的服务器
+- `一键启动或关闭网站.cmd`：根据当前状态自动启动或关闭
+
+默认地址为 `http://127.0.0.1:4173/`，运行状态与日志保存在自动忽略的 `.local-server/` 目录中。
+追番页的 Bilibili 实时同步也由这个本地服务器安全转发公开数据；它不会读取账号 Cookie 或密码。
+
 ```bash
 python -m http.server 4173
 # 或
 npx serve .
 ```
+
+以上通用静态服务器可浏览页面，但不提供 Bilibili 实时同步接口。
 
 ## ☁️ 部署到 GitHub Pages
 
@@ -77,7 +89,8 @@ git push -u origin main
 | 主色调 | `css/style.css` 顶部的设计令牌（`--pink` 等） |
 | 打字机文案 / 看板娘台词 / 碎碎念 | `js/data.js` |
 | 社交链接（GitHub / 邮箱） | `index.html` 作者卡 + 页脚（搜 `yourname`） |
-| 追番 / 友链内容 | `bangumi.html` / `friends.html`（纯 HTML 卡片） |
+| 追番默认账号 | `js/data.js` 的 `SITE.bilibiliUid`（也可在追番页临时绑定） |
+| 友链内容 | `friends.html`（纯 HTML 卡片） |
 | 评论区 | 在 [giscus.app](https://giscus.app) 生成脚本，替换文章页的 `.cmt-card` |
 
 ## 🙏 致谢

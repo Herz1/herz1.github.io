@@ -7,7 +7,7 @@
   <meta name="description" content="麻薯的追番记录，以京都动画作品为主。">
   <meta name="theme-color" content="#FFF7EE">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <script>document.documentElement.classList.add('js');(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
   <link rel="stylesheet" href="css/style.css">
@@ -60,12 +60,50 @@
     <span class="deco" style="left:13%;top:30%">📺</span>
     <span class="deco" style="right:12%;top:55%;animation-delay:1.4s">🌸</span>
     <h1>我的追番</h1>
-    <p>以京阿尼为主的追番记录 —— 评分是私心，吐槽是真心。</p>
+    <p>与 Bilibili 公开追番同步，每一次想看、在看与看完都有迹可循。</p>
   </div>
 
   <div class="page-body">
     <div class="wrap">
-      <div class="bgm-grid">
+      <section class="bili-sync-card" aria-labelledby="bili-sync-title">
+        <div class="bili-sync-main">
+          <div class="bili-mark" aria-hidden="true">B</div>
+          <div class="bili-account">
+            <span class="bili-kicker">Bilibili 公开追番</span>
+            <h2 id="bili-sync-title">尚未绑定账号</h2>
+            <p id="bili-sync-meta">输入公开账号 UID 后，番名、年份、话数、状态和封面会自动同步。</p>
+          </div>
+          <div class="bili-actions">
+            <button class="bili-btn primary" id="bili-refresh" type="button" hidden>同步追番</button>
+            <button class="bili-btn" id="bili-settings" type="button" aria-expanded="false">设置账号</button>
+          </div>
+        </div>
+
+        <form class="bili-setup" id="bili-setup" novalidate>
+          <label for="bili-uid">Bilibili UID</label>
+          <div class="bili-input-row">
+            <input id="bili-uid" name="uid" type="text" inputmode="numeric" pattern="[0-9]+" autocomplete="off" placeholder="例如：你的空间链接中的数字">
+            <button class="bili-btn primary" type="submit">保存并同步</button>
+            <button class="bili-btn quiet" id="bili-clear" type="button" hidden>清除</button>
+          </div>
+          <small>只保存公开 UID，不读取 Cookie、密码或私密追番。账号须在 Bilibili 开放追番列表。</small>
+        </form>
+
+        <div class="bili-toolbar" id="bili-toolbar" hidden>
+          <div class="bili-filters" role="group" aria-label="追番状态筛选">
+            <button class="active" type="button" data-follow-status="0">全部</button>
+            <button type="button" data-follow-status="1">想看</button>
+            <button type="button" data-follow-status="2">在看</button>
+            <button type="button" data-follow-status="3">看完</button>
+          </div>
+          <a id="bili-space-link" href="https://space.bilibili.com/" target="_blank" rel="noopener noreferrer">前往 B 站空间 ↗</a>
+        </div>
+
+        <div class="bili-notice" id="bili-notice" role="status" aria-live="polite">等待绑定账号。</div>
+      </section>
+
+      <div class="bgm-grid" id="bangumi-grid" aria-live="polite" aria-busy="false"></div>
+      <div class="bgm-grid bgm-static" aria-label="静态追番示例">
 
         <div class="bgm-card rise" style="--g1:#F8AFC5;--g2:#FFE3B3">
           <div class="bgm-cover"><span class="em">🍡</span><span class="jp">たまこまーけっと</span><span class="bgm-state done">看完</span></div>
@@ -179,9 +217,13 @@
 
       </div>
 
+      <div class="bili-load-wrap" id="bili-load-wrap" hidden>
+        <button class="bili-btn" id="bili-load-more" type="button">再加载一些</button>
+      </div>
+
       <div class="apply-card rise" style="margin-top:34px">
-        <h3>评分说明</h3>
-        <p>评分满分 10 分，纯私人口味，不构成任何观看建议（虽然全都建议看）。数据手动维护在 <code>bangumi.html</code> 里，想接入实时数据可以参考 <a href="https://bangumi.github.io/api/" target="_blank" rel="noopener" style="color:var(--pink-deep)">Bangumi API</a>。</p>
+        <h3>同步说明</h3>
+        <p>番剧名称、年份、话数、简介、公开追番状态、B 站评分及封面来自 Bilibili。评分为站内综合评分，并非账号个人评分；封面与番剧内容版权归原权利方所有。接口暂时不可用时会显示浏览器中最近一次成功同步的记录。</p>
       </div>
     </div>
   </div>
@@ -200,5 +242,6 @@
 
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/bangumi.js"></script>
 </body>
 </html>
