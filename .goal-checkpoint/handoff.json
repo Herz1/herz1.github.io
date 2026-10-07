@@ -1,0 +1,18 @@
+{
+  "uncommitted": [
+    " M atom.xml",
+    " M js/bangumi.js",
+    " M js/data.js",
+    "?? GOAL_ACCEPTANCE.md",
+    "?? tools/check-site.mjs",
+    "?? tools/content.mjs",
+    "?? tools/sync-feed.mjs"
+  ],
+  "notes": [
+    "没有启动开发服务器、浏览器、安装、构建或新测试进程。仅运行 Node 订阅源生成及静态校验，均已退出。",
+    "新增 GOAL_ACCEPTANCE.md、tools/content.mjs、tools/sync-feed.mjs、tools/check-site.mjs；js/data.js 增加正式 URL/subtitle；atom.xml 从索引生成。",
+    "静态检查发现 404.html 的根绝对首页链接不兼容项目子路径，尚未修复；追番修改 apply_patch 失败，未由该次补丁改动。",
+    "远程只读 API 核实 main=73e0999f0286976d2f8ce2363a326783e59e19a9、legacy-hugo-2024；开放 PR 0。第一次宿主 git fetch 连接失败；未推送、未提交、未部署。",
+    "调查只读官方仓库及 API，未下载依赖。astro-koharu v7.7.2 c8392cbd79f3acb137540309825b78e9e14cd9d0 AGPL-3.0；Quartz 默认 v5 97a2d05f80c4c50534959b1d0d41cc4b3895625e MIT；Fuwari 6d39b0dec41282e7852e23e032998a5789abee28 MIT。REFERENCE_RESEARCH.md 尚未写。"
+  ]
+}

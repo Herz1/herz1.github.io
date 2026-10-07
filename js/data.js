@@ -6,6 +6,8 @@
 
 const SITE = {
   name: '兔山手帖',
+  url: 'https://herz1.github.io/', // Atom 的正式站点根地址；项目 Pages 可含子路径
+  subtitle: '麻薯、商店街与恰到好处的日常',
   since: '2026-07-01',        // 开站日 → 「已运行 N 天」
   author: '麻薯',
   words: '10.2k',             // 全站字数（手动维护）

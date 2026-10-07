@@ -7,8 +7,16 @@
   'use strict';
 
   const UID_KEY = 'usagiyama-bilibili-uid';
-  const CACHE_PREFIX = 'usagiyama-bilibili-cache-v1';
+  const CACHE_PREFIX = 'usagiyama-bilibili-cache-v2';
   const PAGE_SIZE = 24;
+  const STALE_MS = 30 * 60 * 1000;
+  const MAX_CACHE_MS = 7 * 24 * 60 * 60 * 1000;
+  const REQUEST_MS = 15000;
+  const storage = {
+    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch { /* 仍可在本页使用 */ } },
+    remove(key) { try { localStorage.removeItem(key); } catch { /* 禁用存储 */ } },
+  };
 
   const grid = document.getElementById('bangumi-grid');
   if (!grid) return;
@@ -34,8 +42,12 @@
     total: 0,
     items: [],
     loading: false,
+    hasResult: false,
+    savedAt: 0,
   };
   let apiUrl = '';
+  let generation = 0;
+  let requestController;
 
   const statusLabels = {
     1: '想看',
@@ -45,12 +57,12 @@
 
   function normalizeUid(value) {
     const uid = String(value || '').trim();
-    return /^\d{1,20}$/.test(uid) ? uid : '';
+    return /^\d{1,20}$/.test(uid) && /[1-9]/.test(uid) ? uid.replace(/^0+/, '') : '';
   }
 
   function getDefaultUid() {
     const queryUid = normalizeUid(new URLSearchParams(location.search).get('uid'));
-    const savedUid = normalizeUid(localStorage.getItem(UID_KEY));
+    const savedUid = normalizeUid(storage.get(UID_KEY));
     const configuredUid = typeof SITE !== 'undefined' ? normalizeUid(SITE.bilibiliUid) : '';
     return queryUid || savedUid || configuredUid;
   }
@@ -68,7 +80,9 @@
     const configured = configuredApiUrl();
     if (configured) {
       try {
-        return new URL(configured, document.baseURI).href;
+        const url = new URL(configured, document.baseURI);
+        return url.protocol === 'https:' || (isLocalHost() && url.origin === location.origin)
+          ? url.href : '';
       } catch {
         return '';
       }
@@ -76,11 +90,14 @@
     if (!isLocalHost()) return '';
 
     // 本地完整服务器会为该路径返回 JSON；普通静态服务器返回 HTML 404。
-    const localEndpoint = new URL('api/bilibili/follows', document.baseURI);
+    const localEndpoint = new URL('/api/bilibili/follows', location.origin);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), REQUEST_MS);
     try {
       const response = await fetch(localEndpoint, {
         headers: { Accept: 'application/json' },
         cache: 'no-store',
+        signal: controller.signal,
       });
       const contentType = response.headers.get('content-type') || '';
       return contentType.includes('application/json')
@@ -88,11 +105,13 @@
         : '';
     } catch {
       return '';
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
   function cacheKey() {
-    return `${CACHE_PREFIX}:${state.uid}:${state.filter}`;
+    return `${CACHE_PREFIX}:${encodeURIComponent(apiUrl)}:${state.uid}:${state.filter}`;
   }
 
   function setNotice(message, tone = '') {
@@ -118,9 +137,12 @@
     settingsButton.hidden = true;
     clearButton.hidden = true;
     toolbar.hidden = true;
-    accountTitle.textContent = '线上追番同步服务暂未启用';
-    accountMeta.textContent = '当前显示静态追番示例；配置独立 API 服务后即可启用在线同步。';
-    setNotice('线上追番同步服务暂未启用。', 'warn');
+    const message = isLocalHost() ? '本地追番同步服务不可用' : '线上追番同步服务暂未启用';
+    accountTitle.textContent = message;
+    accountMeta.textContent = isLocalHost()
+      ? '当前显示静态追番示例；请使用一键启动器或 tools/site-server.py 启动完整服务。'
+      : '当前显示静态追番示例；独立 Worker/API 尚未配置，本站不会请求不存在的接口。';
+    setNotice(message + '，当前内容为静态示例。', 'warn');
   }
 
   function setSetupOpen(open) {
@@ -158,7 +180,11 @@
   }
 
   function forceHttps(url) {
-    return String(url || '').replace(/^http:\/\//i, 'https://');
+    try {
+      const value = String(url || '').replace(/^http:\/\//i, 'https://').replace(/^\/\//, 'https://');
+      const parsed = new URL(value);
+      return parsed.protocol === 'https:' && !parsed.username && !parsed.password ? parsed.href : '';
+    } catch { return ''; }
   }
 
   function resizedCover(url) {
@@ -207,14 +233,14 @@
       progress: item.progress || '',
       cover: resizedCover(originalCover || portraitCover),
       coverFallback: originalCover || portraitCover,
-      url: item.url || `https://www.bilibili.com/bangumi/play/ss${item.season_id}`,
+      url: forceHttps(item.url) || `https://www.bilibili.com/bangumi/play/ss${Number(item.season_id) || 0}`,
       tags: Array.isArray(item.styles) ? item.styles.slice(0, 3) : [],
       updateText: item.renewal_time || episodeText,
       badge: item.badge_info?.text || item.badge || '',
     };
   }
 
-  async function proxyRequest(page) {
+  async function proxyRequest(page, signal) {
     if (!apiUrl) throw new Error('追番同步服务暂未启用。');
     const url = new URL(apiUrl);
     url.searchParams.set('uid', state.uid);
@@ -225,14 +251,21 @@
     const response = await fetch(url, {
       headers: { Accept: 'application/json' },
       cache: 'no-store',
+      signal,
     });
     const contentType = response.headers.get('content-type') || '';
     if (!response.ok || !contentType.includes('application/json')) {
-      throw new Error('本地追番同步服务不可用，请用“一键启动网站.cmd”打开本站。');
+      throw new Error(`追番同步服务返回 HTTP ${response.status} 或非 JSON 数据，请稍后重试。`);
     }
     const payload = await response.json();
     if (!payload || payload.code !== 0 || !payload.data) {
       throw new Error(payload?.message || 'Bilibili 暂时拒绝了请求。');
+    }
+    if (!Array.isArray(payload.data.list) || !Number.isSafeInteger(payload.data.total)
+      || payload.data.total < 0 || payload.data.total < payload.data.list.length
+      || payload.data.list.some(item => !item || typeof item.title !== 'string'
+        || !Number.isSafeInteger(Number(item.season_id)) || Number(item.season_id) <= 0)) {
+      throw new Error('同步服务返回的数据格式无效。');
     }
     return payload.data;
   }
@@ -316,8 +349,9 @@
 
   function saveCache() {
     try {
-      localStorage.setItem(cacheKey(), JSON.stringify({
-        savedAt: Date.now(),
+      state.savedAt = Date.now();
+      storage.set(cacheKey(), JSON.stringify({
+        savedAt: state.savedAt,
         total: state.total,
         page: state.page,
         items: state.items,
@@ -329,28 +363,50 @@
 
   function restoreCache() {
     try {
-      const cached = JSON.parse(localStorage.getItem(cacheKey()) || 'null');
-      if (!cached || !Array.isArray(cached.items) || cached.items.length === 0) return false;
+      const cached = JSON.parse(storage.get(cacheKey()) || 'null');
+      const age = Date.now() - cached?.savedAt;
+      if (!cached || !Number.isFinite(cached.savedAt) || age < 0 || age > MAX_CACHE_MS
+        || !Array.isArray(cached.items) || !Number.isSafeInteger(cached.page) || cached.page < 1
+        || !Number.isSafeInteger(cached.total) || cached.total < cached.items.length
+        || cached.items.some(item => !item || !Number.isSafeInteger(item.id) || item.id <= 0
+          || typeof item.title !== 'string' || typeof item.description !== 'string'
+          || !Array.isArray(item.tags) || !Number.isFinite(item.score)
+          || !forceHttps(item.url) || (item.cover && !forceHttps(item.cover))
+          || (item.coverFallback && !forceHttps(item.coverFallback)))) return false;
       state.items = cached.items;
-      state.total = Number(cached.total || cached.items.length);
-      state.page = Number(cached.page || 1);
-      render();
-      const savedTime = new Date(cached.savedAt).toLocaleString('zh-CN', {
-        month: 'numeric',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-      setNotice(`正在检查更新；当前显示 ${savedTime} 的缓存，共 ${state.items.length} 部。`);
+      state.total = cached.total;
+      state.page = cached.page;
+      state.hasResult = true;
+      state.savedAt = cached.savedAt;
+      state.items.length ? render() : renderEmpty('上次同步没有公开记录，正在检查更新。');
+      setNotice(`正在检查更新；${cacheDescription()}。`, age > STALE_MS ? 'warn' : '');
       return true;
     } catch {
       return false;
     }
   }
 
+  function cacheDescription() {
+    const savedTime = new Date(state.savedAt).toLocaleString('zh-CN');
+    return `当前显示 ${savedTime} 的${Date.now() - state.savedAt > STALE_MS ? '旧' : ''}缓存，共 ${state.items.length} 部`;
+  }
+
+  function cancelRequest() {
+    generation++;
+    requestController?.abort();
+    state.loading = false;
+    grid.setAttribute('aria-busy', 'false');
+    refreshButton.disabled = false;
+    loadMoreButton.disabled = false;
+  }
+
   async function loadPage({ reset = false } = {}) {
     if (!state.uid || state.loading) return;
     state.loading = true;
+    const currentGeneration = generation;
+    const controller = new AbortController();
+    requestController = controller;
+    const timeout = setTimeout(() => controller.abort(), REQUEST_MS);
     grid.setAttribute('aria-busy', 'true');
     refreshButton.disabled = true;
     loadMoreButton.disabled = true;
@@ -358,12 +414,14 @@
 
     const requestedPage = reset ? 1 : state.page + 1;
     try {
-      const data = await proxyRequest(requestedPage);
+      const data = await proxyRequest(requestedPage, controller.signal);
+      if (currentGeneration !== generation) return;
       const incoming = (data.list || []).map(normalizeItem);
       const merged = reset ? incoming : [...state.items, ...incoming];
       state.items = [...new Map(merged.map((item) => [item.id, item])).values()];
       state.page = Number(data.pn || requestedPage);
-      state.total = Number(data.total || state.items.length);
+      state.total = data.total;
+      state.hasResult = true;
       render();
       saveCache();
 
@@ -374,11 +432,15 @@
         setNotice(`同步完成：已载入 ${state.items.length} / ${state.total} 部。`, 'success');
       }
     } catch (error) {
-      if (!state.items.length) {
+      if (currentGeneration !== generation) return;
+      if (!state.hasResult) {
         showStaticCards();
       }
-      setNotice(`同步失败：${error.message}${state.items.length ? '，已保留最近一次缓存。' : ''}`, 'error');
+      const message = error.name === 'AbortError' ? '请求超过 15 秒，请稍后重试。' : error.message;
+      setNotice(`同步失败：${message} ${state.hasResult ? cacheDescription() + '，可点击同步重试。' : '当前显示静态示例，可点击同步重试。'}`, 'error');
     } finally {
+      clearTimeout(timeout);
+      if (currentGeneration !== generation) return;
       state.loading = false;
       grid.setAttribute('aria-busy', 'false');
       refreshButton.disabled = false;
@@ -387,11 +449,13 @@
   }
 
   function setUid(uid) {
+    cancelRequest();
     state.uid = uid;
     state.page = 0;
     state.total = 0;
     state.items = [];
-    localStorage.setItem(UID_KEY, uid);
+    state.hasResult = false;
+    storage.set(UID_KEY, uid);
     updateAccountUi();
     setSetupOpen(false);
     if (!restoreCache()) {
@@ -423,11 +487,17 @@
   loadMoreButton.addEventListener('click', () => loadPage());
 
   clearButton.addEventListener('click', () => {
-    localStorage.removeItem(UID_KEY);
+    cancelRequest();
+    storage.remove(UID_KEY);
+    // 清除本接口、本账号的所有筛选缓存。
+    for (let filter = 0; filter <= 3; filter++) {
+      storage.remove(`${CACHE_PREFIX}:${encodeURIComponent(apiUrl)}:${state.uid}:${filter}`);
+    }
     state.uid = '';
     state.items = [];
     state.page = 0;
     state.total = 0;
+    state.hasResult = false;
     grid.innerHTML = '';
     showStaticCards();
     updateAccountUi();
@@ -437,12 +507,17 @@
   filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const nextFilter = Number(button.dataset.followStatus || 0);
-      if (nextFilter === state.filter || state.loading) return;
+      if (nextFilter === state.filter) return;
+      cancelRequest();
       state.filter = nextFilter;
       state.page = 0;
       state.total = 0;
       state.items = [];
-      filterButtons.forEach((item) => item.classList.toggle('active', item === button));
+      state.hasResult = false;
+      filterButtons.forEach((item) => {
+        item.classList.toggle('active', item === button);
+        item.setAttribute('aria-pressed', String(item === button));
+      });
       if (!restoreCache()) {
         showStaticCards();
         setNotice(`正在读取“${button.textContent.trim()}”记录…`);
@@ -452,6 +527,7 @@
   });
 
   apiUrl = await resolveApiUrl();
+  filterButtons.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.followStatus) === state.filter)));
   if (!apiUrl) {
     showUnavailable();
     return;
