@@ -10,6 +10,15 @@
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+
+  // Access can fail in privacy/file modes; malformed saved data must not stop the page.
+  const safeStorage = name => ({
+    getItem(key) { try { return window[name].getItem(key); } catch { return null; } },
+    setItem(key, value) { try { window[name].setItem(key, String(value)); } catch {} }
+  });
+  const localStore = safeStorage('localStorage');
+  const sessionStore = safeStorage('sessionStorage');
+
   /* ═══════════ 0. 注入悬浮组件 ═══════════ */
   const MASCOT_SVG = `
   <svg class="mbody" viewBox="0 0 100 100" aria-hidden="true">
@@ -68,7 +77,7 @@
   const setTheme = () => {
     const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
-    localStorage.setItem('theme', next);
+    localStore.setItem('mochi-theme', next);
     syncMeta();
   };
   let vtBusy = false;
@@ -100,9 +109,9 @@
   const loader = $('#loader');
   if (loader) {
     const bye = () => loader.classList.add('bye');
-    if (sessionStorage.getItem('mochi-seen')) bye();
+    if (sessionStore.getItem('mochi-seen')) bye();
     else {
-      sessionStorage.setItem('mochi-seen', '1');
+      sessionStore.setItem('mochi-seen', '1');
       window.addEventListener('load', () => setTimeout(bye, 450));
       setTimeout(bye, 2200);
     }
@@ -226,7 +235,9 @@
     if (d < 365) return Math.floor(d / 30) + ' 个月前';
     return Math.floor(d / 365) + ' 年前';
   };
-  const readSet = new Set(JSON.parse(localStorage.getItem('mochi-read') || '[]'));
+  let readItems = [];
+  try { const value = JSON.parse(localStore.getItem('mochi-read') || '[]'); if (Array.isArray(value)) readItems = value.filter(item => typeof item === 'string'); } catch {}
+  const readSet = new Set(readItems);
 
   /* ═══════════ 6. 首页：文章流 / 推荐卡 / 标签云 / 归档卡 ═══════════ */
   const feed = $('#feed');
@@ -256,7 +267,7 @@
 
   /* 随便逛逛 · 随机推荐 */
   const reco = $('#hero-reco');
-  if (reco && typeof POSTS !== 'undefined') {
+  if (reco && typeof POSTS !== 'undefined' && POSTS.length) {
     let cur = -1;
     const roll = () => {
       let i; do { i = Math.random() * POSTS.length | 0; } while (i === cur && POSTS.length > 1);
@@ -277,7 +288,7 @@
     const cnt = {};
     POSTS.forEach(p => p.tags.forEach(t => cnt[t] = (cnt[t] || 0) + 1));
     cloud.innerHTML = Object.entries(cnt).sort((a, b) => b[1] - a[1])
-      .map(([t, n]) => `<a class="tag-pill" href="${ROOT}archive.html">${esc(t)}<sup>${n}</sup></a>`).join('');
+      .map(([t, n]) => `<a class="tag-pill" href="${ROOT}archive.html#tag=${encodeURIComponent(t)}">${esc(t)}<sup>${n}</sup></a>`).join('');
   }
 
   /* 按月归档卡 */
@@ -288,7 +299,7 @@
     mini.innerHTML = Object.entries(g).sort((a, b) => b[0].localeCompare(a[0]))
       .map(([k, n]) => {
         const [y, m] = k.split('-');
-        return `<li><a href="${ROOT}archive.html"><span>${y} 年 ${+m} 月</span><b><em>${n}</em>篇</b></a></li>`;
+        return `<li><a href="${ROOT}archive.html#month=${encodeURIComponent(k)}"><span>${y} 年 ${+m} 月</span><b><em>${n}</em>篇</b></a></li>`;
       }).join('');
   }
 
@@ -299,7 +310,7 @@
     set('#stat-posts', POSTS.length); set('#stat-posts2', POSTS.length + ' 篇');
     set('#stat-tags', tagN);
     set('#stat-words', (typeof SITE !== 'undefined' ? SITE.words : '-') + ' 字');
-    set('#stat-updated', relTime(POSTS[0].date));
+    if (POSTS.length) set('#stat-updated', relTime(POSTS[0].date));
   }
   if (typeof SITE !== 'undefined') {
     const diff = Math.max(1, Math.ceil((Date.now() - new Date(SITE.since + 'T00:00:00')) / 864e5));
@@ -307,9 +318,9 @@
   }
   const visitEl = $('#visit-count');
   if (visitEl) {
-    let v = +(localStorage.getItem('mochi-visits') || 0);
-    if (!sessionStorage.getItem('mochi-counted')) {
-      v += 1; localStorage.setItem('mochi-visits', v); sessionStorage.setItem('mochi-counted', '1');
+    let v = Math.max(0, Number(localStore.getItem('mochi-visits')) || 0);
+    if (!sessionStore.getItem('mochi-counted')) {
+      v += 1; localStore.setItem('mochi-visits', v); sessionStore.setItem('mochi-counted', '1');
     }
     visitEl.textContent = v;
   }
@@ -479,7 +490,7 @@
   /* ═══════════ 12. 看板娘 · 大福 ═══════════ */
   const mascot = $('#mascot');
   if (mascot) {
-    if (sessionStorage.getItem('mascot-hidden')) mascot.style.display = 'none';
+    if (sessionStore.getItem('mascot-hidden')) mascot.style.display = 'none';
     const bubble = $('#bubble');
     let bt, clicks = 0, ct;
     const say = (text, ms = 2800) => {
@@ -496,10 +507,10 @@
     });
     $('#mascot-hide')?.addEventListener('click', () => {
       mascot.style.display = 'none';
-      sessionStorage.setItem('mascot-hidden', '1');
+      sessionStore.setItem('mascot-hidden', '1');
     });
-    if (!sessionStorage.getItem('mochi-greeted')) {
-      sessionStorage.setItem('mochi-greeted', '1');
+    if (!sessionStore.getItem('mochi-greeted')) {
+      sessionStore.setItem('mochi-greeted', '1');
       setTimeout(() => say('欢迎来到兔山商店街～', 3000), 1600);
     }
   }
@@ -518,52 +529,7 @@
     }
   };
 
-  /* ═══════════ 13. 全站搜索（Ctrl+K） ═══════════ */
-  const mask = $('#search-mask');
-  if (mask && typeof POSTS !== 'undefined') {
-    const input = $('#search-input'), list = $('#search-results');
-    const open = () => { mask.classList.add('open'); input.value = ''; render(''); setTimeout(() => input.focus(), 50); };
-    const close = () => mask.classList.remove('open');
-    $('#search-btn')?.addEventListener('click', open);
-    mask.addEventListener('click', (e) => { if (e.target === mask) close(); });
-    document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        mask.classList.contains('open') ? close() : open();
-      }
-      if (!mask.classList.contains('open')) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        const items = $$('.sr', list);
-        if (!items.length) return;
-        let i = items.findIndex(el => el.classList.contains('sel'));
-        items[i]?.classList.remove('sel');
-        i = e.key === 'ArrowDown' ? (i + 1) % items.length : (i - 1 + items.length) % items.length;
-        items[i].classList.add('sel');
-        items[i].scrollIntoView({ block: 'nearest' });
-      }
-      if (e.key === 'Enter') {
-        const sel = $('.sr.sel', list) || $('.sr', list);
-        if (sel) location.href = sel.href;
-      }
-    });
-    const render = (q) => {
-      q = q.trim().toLowerCase();
-      const hits = !q ? POSTS.slice(0, 5)
-        : POSTS.filter(p => (p.title + p.excerpt + p.tags.join(' ') + p.catName).toLowerCase().includes(q));
-      if (!hits.length) {
-        list.innerHTML = `<div class="empty">没有找到「${esc(q)}」相关的文章…<br>🍡 换个关键词试试？</div>`;
-        return;
-      }
-      list.innerHTML = hits.map(p => {
-        let t = esc(p.title);
-        if (q) t = t.replace(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), m => `<mark>${m}</mark>`);
-        return `<a class="sr" href="${ROOT}${p.url}"><b>${t}</b><span>${p.date} · ${p.catName} · ${esc(p.excerpt)}</span></a>`;
-      }).join('');
-    };
-    input.addEventListener('input', () => render(input.value));
-  }
+  /* Local search is handled by search-dialog.js. */
 
   /* ═══════════ 14. 自定义右键菜单 ═══════════ */
   const ctxMenu = $('#ctx-menu');
@@ -583,7 +549,7 @@
     addEventListener('scroll', hide, { passive: true });
     $('#ctx-top').addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
     $('#ctx-random').addEventListener('click', () => {
-      if (typeof POSTS !== 'undefined') location.href = ROOT + POSTS[Math.random() * POSTS.length | 0].url;
+      if (typeof POSTS !== 'undefined' && POSTS.length) location.href = ROOT + POSTS[Math.random() * POSTS.length | 0].url;
     });
     $('#ctx-theme').addEventListener('click', () => toggleTheme(cx, cy));
     $('#ctx-copy').addEventListener('click', () => {
@@ -618,7 +584,7 @@
     const p = POSTS[i];
     if (p) {
       readSet.add(p.id);
-      localStorage.setItem('mochi-read', JSON.stringify([...readSet]));
+      localStore.setItem('mochi-read', JSON.stringify([...readSet]));
       const phbg = $('.ph-bg');
       if (phbg) phbg.innerHTML = coverSVG(p.cover) + phbg.innerHTML;
       const nav = $('#post-nav');

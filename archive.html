@@ -7,7 +7,7 @@
   <meta name="description" content="兔山手帖的全部文章归档，按时间与分类整理。">
   <meta name="theme-color" content="#FFF7EE">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <script>(function(){var t=(function(){try{var v=localStorage.getItem('mochi-theme')||localStorage.getItem('theme');return /^(dark|light)$/.test(v)?v:null;}catch(e){return null;}})()||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
   <link rel="stylesheet" href="css/style.css">
@@ -84,44 +84,8 @@
 
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
-  <script>
-    /* 归档页：按年月分组的时间轴 + 分类筛选 */
-    (function () {
-      const tabs = document.getElementById('arc-tabs');
-      const list = document.getElementById('arc-list');
-      document.getElementById('arc-total').textContent = POSTS.length;
-      const TABS = [['all', '全部'], ...Object.entries(CATS).map(([k, v]) => [k, v.name])];
-      let cur = (location.hash.match(/^#cat-(\w+)$/) || [])[1] || 'all';
-      if (!CATS[cur]) cur = 'all';
+  <script src="js/search-dialog.js" data-library="mochi"></script>
+  <script src="js/reading-room.js" data-library="mochi"></script>
 
-      const render = () => {
-        const posts = POSTS.filter(p => cur === 'all' || p.cat === cur);
-        tabs.innerHTML = TABS.map(([k, n]) =>
-          `<button class="arc-tab${k === cur ? ' on' : ''}" data-k="${k}">${n}${k === 'all' ? ` · ${POSTS.length}` : ` · ${POSTS.filter(p => p.cat === k).length}`}</button>`).join('');
-        const byYear = {};
-        posts.forEach(p => { const y = p.date.slice(0, 4); (byYear[y] = byYear[y] || []).push(p); });
-        list.innerHTML = Object.keys(byYear).sort().reverse().map(y => `
-          <h2 class="arc-year">${y} <span>${byYear[y].length} 篇</span></h2>
-          <div class="timeline">
-            ${byYear[y].map(p => `
-              <div class="tl-item" style="--cat-c:${CATS[p.cat].c}">
-                <a href="${p.url}">
-                  <time>${p.date.slice(5).replace('-', ' / ')}</time>
-                  <span class="t">${p.title}</span>
-                  <span class="c">${CATS[p.cat].name}</span>
-                </a>
-              </div>`).join('')}
-          </div>`).join('') || '<p style="text-align:center;color:var(--ink-3);padding:30px 0">这个分类还是空的，年糕还在锅里 🍡</p>';
-      };
-      tabs.addEventListener('click', (e) => {
-        const b = e.target.closest('.arc-tab');
-        if (!b) return;
-        cur = b.dataset.k;
-        history.replaceState(null, '', cur === 'all' ? '#' : '#cat-' + cur);
-        render();
-      });
-      render();
-    })();
-  </script>
 </body>
 </html>

@@ -11,7 +11,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <script>/* 防闪烁：尽早落地主题 */
     (function () {
-      var t = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var t = (function(){try{var v=localStorage.getItem('mochi-theme')||localStorage.getItem('theme');return /^(dark|light)$/.test(v)?v:null;}catch(e){return null;}})() || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.dataset.theme = t;
     })();
   </script>
@@ -479,5 +479,7 @@
 
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/search-dialog.js" data-library="mochi"></script>
+  <script src="js/reading-room.js" data-library="mochi"></script>
 </body>
 </html>
