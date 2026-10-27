@@ -564,6 +564,12 @@ ul { list-style: none; }
 .bili-empty p { margin-top: 5px; color: var(--ink-3); font-size: 13px; }
 .bili-load-wrap { display: flex; justify-content: center; padding-top: 24px; }
 .bili-load-wrap[hidden] { display: none; }
+.bili-progress-text { color: var(--ink-3); font-size: 11px; margin-top: 6px; }
+.bili-notice, .bili-account h2 { overflow-wrap: anywhere; }
+.bili-filters button, .bili-actions .bili-btn { min-height: 44px; }
+.bgm-grid[hidden] { display: none; }
+.bili-static-label { color: var(--ink-3); font-size: 12px; margin-bottom: 12px; }
+.bili-sync-active .bili-static-label { display: none; }
 
 /* ---------- 11. 友链 ---------- */
 .fr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(245px, 1fr)); gap: 18px; }

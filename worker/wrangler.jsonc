@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "usagiyama-bangumi-api",
+  "main": "src/index.mjs",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://herz1.github.io"
+  },
+  "ratelimits": [
+    { "name": "UID_LIMITER", "namespace_id": "2026102701", "simple": { "limit": 12, "period": 60 } },
+    { "name": "UPSTREAM_LIMITER", "namespace_id": "2026102702", "simple": { "limit": 60, "period": 60 } }
+  ],
+  "env": {
+    "dev": {
+      "name": "usagiyama-bangumi-api-dev",
+      "vars": { "ALLOWED_ORIGINS": "https://herz1.github.io,http://localhost:4173,http://127.0.0.1:4173" },
+      "ratelimits": [
+        { "name": "UID_LIMITER", "namespace_id": "2026102703", "simple": { "limit": 12, "period": 60 } },
+        { "name": "UPSTREAM_LIMITER", "namespace_id": "2026102704", "simple": { "limit": 60, "period": 60 } }
+      ]
+    }
+  }
+}
