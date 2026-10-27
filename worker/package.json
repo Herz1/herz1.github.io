@@ -1,0 +1,12 @@
+{
+  "name": "usagiyama-bangumi-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "dev": "wrangler dev --env dev",
+    "check": "wrangler deploy --dry-run",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": { "wrangler": "4.153.0" }
+}

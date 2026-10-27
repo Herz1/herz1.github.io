@@ -9,8 +9,8 @@ const SITE = {
   since: '2026-07-01',        // 开站日 → 「已运行 N 天」
   author: '麻薯',
   words: '10.2k',             // 全站字数（手动维护）
-  bilibiliUid: '',            // 追番页默认账号 UID；留空时可在页面内绑定
-  bilibiliApiUrl: '',         // 线上追番 API 完整地址；部署 Worker 后填写，留空时仅本地自动探测
+  bilibiliUid: '201622770',    // 沿用旧 Hugo 博客的公开 Bilibili 空间 UID
+  bilibiliApiUrl: '',         // 优先使用此完整地址，否则读取 config/bilibili.json
 };
 
 const POSTS = [

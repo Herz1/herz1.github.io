@@ -29,6 +29,10 @@ coverage/
 .cache/
 .vite/
 .next/
+.wrangler/
+.dev.vars
+.dev.vars.*
+test-results/
 
 # Local databases
 *.db

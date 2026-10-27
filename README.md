@@ -78,9 +78,11 @@ git push -u origin main
 3. 仓库 **Settings → Pages** → Source 选 `Deploy from a branch`，分支选 `main` / `(root)`，保存
 4. 发布完成后访问 `https://herz1.github.io/`
 
-GitHub Pages 只托管 HTML、CSS、JavaScript、图片和订阅源等静态文件，**不会运行** `tools/site-server.py` 或 Windows 启动器。本地 Python 代理会继续保留在仓库中供本机使用；线上 Bilibili 同步以后由独立的 Cloudflare Worker 等 API 服务提供。
+GitHub Pages 只托管 HTML、CSS、JavaScript、图片和订阅源等静态文件，**不会运行** `tools/site-server.py` 或 Windows 启动器。本地 Python 代理继续保留；仓库新增的 [`worker/`](worker/README.md) 提供适用于公网的独立 Cloudflare Worker 代理，保留公开状态、封面、分页和缓存，不需要 B 站登录凭据。
 
-线上 API 部署完成后，只需在 `js/data.js` 中把 `SITE.bilibiliApiUrl` 填为完整接口地址。该配置留空时，Pages 不会请求不存在的 `/api/`，追番页会显示静态示例与“线上追番同步服务暂未启用”的提示。不要把 Cookie、API Key 或密码写入前端配置。
+按 [部署与验证说明](worker/README.md) 部署 Worker 后，运行 `node tools/configure-bilibili.mjs https://实际服务地址.workers.dev`，验证并保存 `config/bilibili.json`。也兼容 `SITE.bilibiliApiUrl` 直接配置。两者均为空时，Pages 仅显示明确标注的静态示例，不会请求不存在的 `/api/`。不要把 Cookie、API Key 或密码写入前端配置。
+
+默认 Bilibili UID `201622770` 沿用旧博客配置。本轮真实请求返回“追番列表未公开”，需要账号所有者开放追番后才能同步真实收藏。代理约缓存 5 分钟，临时故障最多回退 24 小时内的记录，并显示数据时间。公开接口未提供观看进度时不会伪造进度。
 
 将来绑定正式域名时，可在 **Settings → Pages → Custom domain** 配置，并按 GitHub 提示设置 DNS；确认域名后再添加对应的 `CNAME` 文件。图文版教程见站内文章[《把这个博客部署到 GitHub Pages 的完整笔记》](posts/github-pages-deploy.html)。
 

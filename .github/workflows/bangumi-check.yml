@@ -1,0 +1,31 @@
+name: Bangumi proxy checks
+on:
+  pull_request:
+    paths:
+      - 'worker/**'
+      - 'js/bangumi.js'
+      - 'tools/configure-bilibili.mjs'
+      - '.github/workflows/bangumi-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: worker/package-lock.json
+      - run: npm ci
+        working-directory: worker
+      - run: npm test
+        working-directory: worker
+      - run: npm run check
+        working-directory: worker
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+      - run: node --check js/bangumi.js
+      - run: node --check tools/configure-bilibili.mjs

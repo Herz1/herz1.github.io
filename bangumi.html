@@ -91,10 +91,10 @@
 
         <div class="bili-toolbar" id="bili-toolbar" hidden>
           <div class="bili-filters" role="group" aria-label="追番状态筛选">
-            <button class="active" type="button" data-follow-status="0">全部</button>
-            <button type="button" data-follow-status="1">想看</button>
-            <button type="button" data-follow-status="2">在看</button>
-            <button type="button" data-follow-status="3">看完</button>
+            <button class="active" type="button" data-follow-status="0" aria-pressed="true">全部</button>
+            <button type="button" data-follow-status="1" aria-pressed="false">想看</button>
+            <button type="button" data-follow-status="2" aria-pressed="false">在看</button>
+            <button type="button" data-follow-status="3" aria-pressed="false">看完</button>
           </div>
           <a id="bili-space-link" href="https://space.bilibili.com/" target="_blank" rel="noopener noreferrer">前往 B 站空间 ↗</a>
         </div>
@@ -103,6 +103,7 @@
       </section>
 
       <div class="bgm-grid" id="bangumi-grid" aria-live="polite" aria-busy="false"></div>
+      <p class="bili-static-label">以下为博客原有静态示例，不代表当前账号的实时收藏。</p>
       <div class="bgm-grid bgm-static" aria-label="静态追番示例">
 
         <div class="bgm-card rise" style="--g1:#F8AFC5;--g2:#FFE3B3">
@@ -223,7 +224,7 @@
 
       <div class="apply-card rise" style="margin-top:34px">
         <h3>同步说明</h3>
-        <p>番剧名称、年份、话数、简介、公开追番状态、B 站评分及封面来自 Bilibili。评分为站内综合评分，并非账号个人评分；封面与番剧内容版权归原权利方所有。本地完整服务可实时同步；线上 API 未配置时会保留静态追番示例。</p>
+        <p>番剧名称、年份、话数、简介、公开追番状态、B 站评分及封面来自 Bilibili。评分为站内综合评分，并非账号个人评分；封面与番剧内容版权归原权利方所有。公开接口通常不提供个人观看进度，不会推测或伪造。同步结果可能缓存约 5 分钟；服务异常时保留最多 24 小时的旧记录并显示数据时间，首次加载失败则显示静态示例。</p>
       </div>
     </div>
   </div>
