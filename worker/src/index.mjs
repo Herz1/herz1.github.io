@@ -176,7 +176,10 @@ export function createHandler({ fetcher = fetch, cache, now = Date.now, timeoutM
         return success(await pending.get(cacheKey), 'MISS');
       } catch (error) {
         const failure = error instanceof ApiError ? error : new ApiError('追番服务暂不可用，请稍后重试。');
-        await put(cooldownKey, { until: now() + 60000, message: failure.message, status: failure.status, code: failure.code, transient: failure.transient }, 60);
+        // Requests during a cooldown must not extend it indefinitely on a busy site.
+        if (!cooldown || now() >= cooldown.until) {
+          await put(cooldownKey, { until: now() + 60000, message: failure.message, status: failure.status, code: failure.code, transient: failure.transient }, 60);
+        }
         if (failure.transient && age >= 0 && age < STALE_MS) return success(cached, 'STALE', failure.message);
         if (!failure.transient) {
           try { await getCache()?.delete(cacheKey); } catch { /* Best effort eviction. */ }

@@ -98,7 +98,15 @@ test('transient failures return dated stale data and cooldown avoids repeated up
   assert.equal(stale.meta.fetchedAt, first.meta.fetchedAt);
   await h.request();
   assert.equal(h.calls.length, 2);
+  h.advance(30000);
+  await h.request();
+  assert.equal(h.calls.length, 2);
+  h.advance(31000);
+  h.use(async () => json(sample()));
+  assert.equal((await (await h.request()).json()).meta.cache, 'MISS');
+  assert.equal(h.calls.length, 3, 'traffic during cooldown must not postpone recovery');
   h.advance(24 * 3600000);
+  h.use(async () => json({ code: -412 }));
   assert.equal((await h.request()).status, 503);
 });
 
