@@ -7,7 +7,7 @@
   <meta name="description" content="《玉子市场》兔山商店街的原型就在出町柳。路线、鸭川三角洲跳乌龟，和一家真的在卖豆大福的和菓子店。">
   <meta name="theme-color" content="#FFF7EE">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <script>(function(){var t=(function(){try{var v=localStorage.getItem('mochi-theme')||localStorage.getItem('theme');return /^(dark|light)$/.test(v)?v:null;}catch(e){return null;}})()||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
   <link rel="stylesheet" href="../css/style.css">
@@ -161,5 +161,7 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/search-dialog.js" data-library="mochi"></script>
+  <script src="../js/reading-room.js" data-library="mochi"></script>
 </body>
 </html>

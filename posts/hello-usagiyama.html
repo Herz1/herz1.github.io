@@ -7,7 +7,7 @@
   <meta name="description" content="零框架、零构建、零依赖——用最朴素的 HTML/CSS/JS 开一家自己的小店。">
   <meta name="theme-color" content="#FFF7EE">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+  <script>(function(){var t=(function(){try{var v=localStorage.getItem('mochi-theme')||localStorage.getItem('theme');return /^(dark|light)$/.test(v)?v:null;}catch(e){return null;}})()||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/style.css">
   <link rel="stylesheet" href="../css/style.css">
@@ -155,5 +155,7 @@
 
   <script src="../js/data.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/search-dialog.js" data-library="mochi"></script>
+  <script src="../js/reading-room.js" data-library="mochi"></script>
 </body>
 </html>
